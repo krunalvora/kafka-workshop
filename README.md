@@ -15,7 +15,7 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 
 ## Set up Kafka and Zookeeper services
 
-> Recommended way to setup Kafka and Zookeeper service using [systemd-services](https://github.com/krunalvora/apachekafka101/blob/master/systemd-services/README.md)
+> Recommended way to setup Kafka and Zookeeper service is using [systemd-services](https://github.com/krunalvora/apachekafka101/blob/master/systemd-services/README.md).
 
 ```bash
 cd ~/kafka
