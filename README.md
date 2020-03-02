@@ -4,7 +4,7 @@
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
 
 ```bash
-wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.4.0/kafka_2.12-2.4.0.tgz
+wget <kafka tgz>
 
 tar -xvf kafka_2.12-2.4.0.tgz
 
@@ -13,7 +13,14 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 
 ```
 
-## Set up services
+## Set up Kafka and Zookeeper services
+
+> Recommended way to setup Kafka and Zookeeper service using [systemd-services]()
+
+### Start Zookeeper and Kafka
+```bash
+
+```
 
 ## Console Producer
 
