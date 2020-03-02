@@ -17,9 +17,20 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 
 > Recommended way to setup Kafka and Zookeeper service using [systemd-services](https://github.com/krunalvora/apachekafka101/blob/master/systemd-services/README.md)
 
-### Start Zookeeper and Kafka
 ```bash
+cd ~/kafka
 
+# Start zookeeper
+./bin/zookeeper-server-start.sh [-daemon] config/zookeeper.properties
+
+# Start kafka
+./bin/kafka-server-start.sh [-daemon] config/server.properties
+
+# Stop kafka
+./bin/kafka-server-stop.sh
+
+# Stop zookeeper 
+./bin/zookeeper-server-stop.sh
 ```
 
 ## Console Producer
