@@ -26,16 +26,26 @@ cd ~/kafka
 # Start kafka
 ./bin/kafka-server-start.sh [-daemon] config/server.properties
 
+
 # Stop kafka
 ./bin/kafka-server-stop.sh
 
 # Stop zookeeper 
 ./bin/zookeeper-server-stop.sh
 ```
+## Create a Kafka Topic
+```bash
+~/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 2
+```
 
-## Console Producer
+## Console Producer / Consumer
+```bash
+~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
 
-## Console Consumer
+~/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
+```
+Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
+
 
 ## Java Producer
 
