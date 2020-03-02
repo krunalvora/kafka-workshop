@@ -1,5 +1,7 @@
 # Apache Kafka 101
 
+Slides available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
+
 ## Installation
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
 
