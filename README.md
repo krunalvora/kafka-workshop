@@ -1,2 +1,13 @@
-# apachekafka101
-Apache Kafka 101 code snippets
+# Apache Kafka 101
+
+## Installation
+
+## Set up services
+
+## Console Producer
+
+## Console Consumer
+
+## Java Producer
+
+## Java Consumer
