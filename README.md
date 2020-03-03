@@ -49,6 +49,5 @@ cd ~/kafka
 Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
 
 
-## Java Producer
-
-## Java Consumer
+# Python-Client
+Experiment with the python clients using the instructions [here](https://github.com/krunalvora/apachekafka101/tree/master/python-client).
