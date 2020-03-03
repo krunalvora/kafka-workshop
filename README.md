@@ -2,6 +2,8 @@
 
 Slides available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
 
+> The instructions below are for a linux(optionally mac) OS. You can follow the steps in the Kafka Documentation for other OSs.
+
 ## Installation
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
 
