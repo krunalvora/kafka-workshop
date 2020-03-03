@@ -24,10 +24,14 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 ```bash
 cd ~/kafka
 
+> Command options within [] are optional. Please make the relevant changes to your command before running them.
+
 # Start zookeeper
+# -daemon runs the process in background
 ./bin/zookeeper-server-start.sh [-daemon] config/zookeeper.properties
 
 # Start kafka
+# -daemon runs the process in background
 ./bin/kafka-server-start.sh [-daemon] config/server.properties
 
 
