@@ -12,8 +12,8 @@
 4. [Create Kafka Topic](#create-kafka-topic)
 5. [Produce messages to Kafka](#produce-messages-to-kafka)
 6. [Consume messages from Kafka](#consume-messages-from-kafka)
-5. [Produce/Consume using Kafka Clients](#produce-consume-using-kafka-clients)
-    3. [Python-Client](#python-client)
+5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
+    1. [Python-Client](#python-client)
 
 ## Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
@@ -97,11 +97,13 @@ sudo systemctl [status | start | stop] kafka
 ## Produce messages to Kafka
 ```bash
 ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
+```
+Open a new terminal window to start consuming while leaving this window untouched.
 
 ## Consume messages from Kafka
+```bash
 ~/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
 ```
-
 Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
 
 ## Produce/Consume using Kafka Clients
