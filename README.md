@@ -67,6 +67,8 @@ sudo systemctl [status | start | stop] zookeeper
 
 ### Using Kafka shell scripts
 ```bash
+cd ~/kafka:wq
+
 # -daemon runs the process in background
 ./bin/kafka-server-start.sh [-daemon] config/server.properties
 ```
