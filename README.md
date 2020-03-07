@@ -10,9 +10,9 @@
     1. [Using Kafka shell scripts](#using-kafka-shell-scripts)
     2. [Setup Kafka service](#setup-kafka-service)
 4. [Create Kafka Topic](#create-kafka-topic)
-5. [Kafka Clients](#kafka-clients)
-    1. [Console Producer](#console-producer)
-    2. [Console Consumer](#console-consumer)
+5. [Produce messages to Kafka](#produce-messages-to-kafka)
+6. [Consume messages from Kafka](#consume-messages-from-kafka)
+5. [Produce/Consume using Kafka Clients](#produce-consume-using-kafka-clients)
     3. [Python-Client](#python-client)
 
 ## Slides
@@ -35,43 +35,83 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 
 ## Start Zookeeper
 
-### Zookeeper Service
-
-> Recommended way to setup Kafka and Zookeeper service is using [systemd-services](https://github.com/krunalvora/apachekafka101/blob/master/systemd-services/README.md).
+### Using Zookeeper shell scripts
 
 ```bash
 cd ~/kafka
 
-> Command options within [] are optional. Please make the relevant changes to your command before running them.
-
-# Start zookeeper
+# Command options within [] are optional. Please make the relevant changes to your command before running them.
 # -daemon runs the process in background
 ./bin/zookeeper-server-start.sh [-daemon] config/zookeeper.properties
+```
 
-# Start kafka
-# -daemon runs the process in background
-./bin/kafka-server-start.sh [-daemon] config/server.properties
-
-
-# Stop kafka
-./bin/kafka-server-stop.sh
-
-# Stop zookeeper 
+#### Stop zookeeper
+```bash 
 ./bin/zookeeper-server-stop.sh
 ```
-## Create a Kafka Topic
+
+### Setup Zookeeper Service
+ 
+#### Using Systemd
+```bash
+sudo vim /etc/systemd/system/zookeeper.service
+
+# Paste the content of zookeeper.service from systemd-services/zookeeper.service into the opened file
+
+sudo systemctl enable zookeeper
+
+sudo systemctl [status | start | stop] zookeeper
+```
+
+## Start Kafka
+
+### Using Kafka shell scripts
+```bash
+# -daemon runs the process in background
+./bin/kafka-server-start.sh [-daemon] config/server.properties
+```
+#### Stop kafka
+```bash
+./bin/kafka-server-stop.sh
+```
+
+### Setup Kafka Service
+ 
+#### Using Systemd
+```bash
+sudo vim /etc/systemd/system/kafka.service
+
+# Paste the content of kafka.service from systemd-services/kafka.service into the opened file
+
+sudo systemctl enable kafka
+
+sudo systemctl [status | start | stop] kafka
+```
+
+
+## Create Kafka Topic
 ```bash
 ~/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 2
 ```
 
-## Console Producer / Consumer
+## Produce messages to Kafka
 ```bash
 ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
 
+## Consume messages from Kafka
 ~/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
 ```
+
 Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
 
+## Produce/Consume using Kafka Clients
 
-## Python-Client
-Experiment with the python clients using the instructions [here](https://github.com/krunalvora/apachekafka101/tree/master/python-client).
+### Python-Client
+```bash
+pip3 install kafka-python
+
+python3 python-client/consumer.py
+
+# In a new shell window:
+python3 python-client/producer.py
+```
