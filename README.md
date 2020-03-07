@@ -1,5 +1,21 @@
 # Apache Kafka 101
 
+## Table of Contents
+1. [Slides](#slides)
+2. [Installation](#installation)
+3. [Start Zookeeper](#start-zookeeper)
+    1. [Using Zookeeper shell scripts](#using-zookeeper-shell-scripts)
+    2. [Setup Zookeeper Service](#setup-zookeeper-service)
+4. [Start Kafka](#start-kafka)
+    1. [Using Kafka shell scripts](#using-kafka-shell-scripts)
+    2. [Setup Kafka service](#setup-kafka-service)
+4. [Create Kafka Topic](#create-kafka-topic)
+5. [Kafka Clients](#kafka-clients)
+    1. [Console Producer](#console-producer)
+    2. [Console Consumer](#console-consumer)
+    3. [Python-Client](#python-client)
+
+## Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
 
 > The instructions below are for a linux(optionally mac) OS. You can follow the steps in the Kafka Documentation for other OSs.
@@ -17,7 +33,9 @@ ln -s kafka_2.12-2.4.0.tgz kafka
 
 ```
 
-## Set up Kafka and Zookeeper services
+## Start Zookeeper
+
+### Zookeeper Service
 
 > Recommended way to setup Kafka and Zookeeper service is using [systemd-services](https://github.com/krunalvora/apachekafka101/blob/master/systemd-services/README.md).
 
