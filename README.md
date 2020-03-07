@@ -29,7 +29,7 @@ wget <kafka tgz>
 tar -xvf kafka_2.12-2.4.0.tgz
 
 # Create a symbolic link to the kafka directory to refer to it easily 
-ln -s kafka_2.12-2.4.0.tgz kafka
+ln -s kafka_2.12-2.4.0 kafka
 
 ```
 
