@@ -1,0 +1,14 @@
+# kafka-manager/docker-compose.yml
+version: "3.7"
+services:
+  kafka-manager:
+    image: solsson/kafka-manager
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+    networks:
+      - kafka-docker_default
+networks:
+  kafka-docker_default:
+    external: true
