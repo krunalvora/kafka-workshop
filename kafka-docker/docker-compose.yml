@@ -8,9 +8,10 @@ services:
   kafka:
     image: wurstmeister/kafka
     ports:
-      - "9092-9095:9092"
+      - "9092-9094:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.26
+      KAFKA_ADVERTISED_HOST_NAME: ${ADVERTISED_HOST_NAME}
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "first_topic:3:3,second_topic:3:3"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
