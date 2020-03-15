@@ -1,0 +1,15 @@
+# zoonavigator/docker-compose.yml
+version: "3.7"
+services:
+  zoonavigator:
+    image: elkozmon/zoonavigator
+    ports:
+      - "9001:9000"
+    environment:
+      AUTO_CONNECT_CONNECTION_STRING: "zookeeper:2181"
+      HTTP_PORT: 9000
+    networks:
+      - kafka-docker_default
+networks:
+  kafka-docker_default:
+    external: true
