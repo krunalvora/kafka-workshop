@@ -40,7 +40,7 @@ ln -s kafka_2.12-2.4.0 kafka
 
 ```
 
-### Setup KAFKA_HOME
+### Set KAFKA_HOME
 
 Depending on where you install `kafka` in the above step, set `KAFKA_HOME`:
 ```bash
