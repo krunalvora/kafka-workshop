@@ -119,3 +119,9 @@ python3 python-client/consumer.py
 # In a new shell window:
 python3 python-client/producer.py
 ```
+
+
+### kafka-docker
+```bash
+sed -i '' "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/`ipconfig getifaddr en0`/g" docker-compose.yml
+```
