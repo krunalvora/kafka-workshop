@@ -69,6 +69,8 @@ ssl.keystore.password=serversecret
 ssl.key.password=serversecret
 ssl.truststore.location=<path_to_ssl_files_dir>/kafka.server.truststore.jks
 ssl.truststore.password=serversecret
+
+ssl.client.auth=required
 ```
 
 
