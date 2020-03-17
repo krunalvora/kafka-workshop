@@ -60,10 +60,10 @@ SSL properties in Kafka's `server.properties`
 ```properties
 listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093
 advertised.listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
-ssl.keystore.location=/Users/krunalvora/personal/apachekafka101/ssl/kafka.server.keystore.jks
+ssl.keystore.location=<path_to_ssl_files_dir>/kafka.server.keystore.jks
 ssl.keystore.password=serversecret
 ssl.key.password=serversecret
-ssl.truststore.location=/Users/krunalvora/personal/apachekafka101/ssl/kafka.server.truststore.jks
+ssl.truststore.location=<path_to_ssl_files_dir>/kafka.server.truststore.jks
 ssl.truststore.password=serversecret
 ```
 
