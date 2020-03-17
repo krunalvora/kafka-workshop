@@ -21,7 +21,7 @@ openssl req -new -newkey rsa:4096 -days 365 -x509 -subj "/CN=Kafka-Security-CA" 
 
 printf "\nCreating a keystore for kafka broker...\n"
 keytool  -genkey -keystore $SSL_FILES_DIR/kafka.server.keystore.jks -validity 365 \
-  -storepass $SRVPASS -keypass $SRVPASS -dname "CN=localhost" -storetype pkcs12
+  -storepass $SRVPASS -keypass $SRVPASS -dname "CN=localhost" -keyalg RSA -storetype pkcs12
 
 # List keystore
 # keytool -list -v -keystore $SSL_FILES_DIR/kafka.server.keystore.jks
