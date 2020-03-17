@@ -81,7 +81,7 @@ openssl s_client -connect localhost:9093
 Create kafka client truststore
 ```bash
 printf "\nCreating a truststore for kafka client...\n"
-keytool -keystore $SSL_FILES_DIR/kafka.client.truststore.jks -alias CARoot -import -file $SSL_FILES_DIR/ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore kafka.client.truststore.jks -alias CARoot -import -file ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
 
 ## Kafka Client SSL Properties
