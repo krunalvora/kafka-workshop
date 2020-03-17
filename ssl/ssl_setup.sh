@@ -1,6 +1,8 @@
 #!/bin/bash
 
 SSL_FILES_DIR="ssl_files"
+export SRVPASS="serversecret"
+export CLIPASS="clientsecret"
 
 cleanup(){
   if [ -d $SSL_FILES_DIR ]
@@ -14,11 +16,13 @@ cleanup(){
 printf "\nCleaning up existing SSL files...\n"
 cleanup
 
-
+## CA
 printf "\nCreating a CA...\n"
 openssl req -new -newkey rsa:4096 -days 365 -x509 -subj "/CN=Kafka-Security-CA" \
   -keyout $SSL_FILES_DIR/ca-key -out $SSL_FILES_DIR/ca-cert -nodes
 
+
+## Kafka Broker KeyStore
 printf "\nCreating a keystore for kafka broker...\n"
 keytool  -genkey -keystore $SSL_FILES_DIR/kafka.server.keystore.jks -validity 365 \
   -storepass $SRVPASS -keypass $SRVPASS -dname "CN=localhost" -keyalg RSA -storetype pkcs12
@@ -47,7 +51,17 @@ printf "\nImporting signed certificate into broker keystore...\n"
 keytool -keystore $SSL_FILES_DIR/kafka.server.keystore.jks  -import -file $SSL_FILES_DIR/cert-signed \
   -storepass $SRVPASS -keypass $SRVPASS -noprompt
 
+
+## Kafka Broker TrustStore
 printf "\nCreating a truststore for kafka broker...\n"
 keytool -keystore $SSL_FILES_DIR/kafka.server.truststore.jks -alias CARoot \
   -import -file $SSL_FILES_DIR/ca-cert -storepass $SRVPASS -keypass $SRVPASS -noprompt
+
+
+## Kafka Client TrustStore
+printf "\nCreating a truststore for kafka client...\n"
+keytool -keystore $SSL_FILES_DIR/kafka.client.truststore.jks -alias CARoot \
+  -import -file $SSL_FILES_DIR/ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
+
+
 
