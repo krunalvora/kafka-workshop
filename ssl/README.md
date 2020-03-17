@@ -22,14 +22,14 @@ keytool -list -v -keystore kafka.server.keystore.jks
 
 Get signing request out from keystore:
 ```bash
-keytool -keystore kafka.server.keystore.jks -certreq -file cert-file -storepass $SRVPASS -keypass $SRVPASS
+keytool -keystore kafka.server.keystore.jks -certreq -file cert-csr -storepass $SRVPASS -keypass $SRVPASS
 
-# cert-file -> CSR generated
+# cert-csr -> CSR generated
 ```
 
 Sign the certificate:
 ```bash
-openssl x509 -req -CA ca-cert -CAkey ca-key -in cert-file -out cert-signed -days 365 -CAcreateserial -passin pass:$SRVPASS
+openssl x509 -req -CA ca-cert -CAkey ca-key -in cert-csr -out cert-signed -days 365 -CAcreateserial -passin pass:$SRVPASS
 
 # cert-signed -> signed CA certificate
 ```
