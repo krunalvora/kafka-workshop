@@ -8,6 +8,11 @@ openssl req -new -newkey rsa:4096 -days 365 -x509 -subj "/CN=Kafka-Security-CA" 
 # ca-cert -> CA certificate
 ```
 
+Export a server password for ease of use:
+```bash
+export SRVPASS=serversecret
+```
+
 Create a Kafka Broker keystore
 ```bash
 keytool  -genkey -keystore kafka.server.keystore.jks -validity 365 -storepass $SRVPASS -keypass $SRVPASS -dname "CN=localhost" -storetype pkcs12
