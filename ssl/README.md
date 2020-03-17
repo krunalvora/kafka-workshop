@@ -25,30 +25,30 @@ List keystore
 keytool -list -v -keystore kafka.server.keystore.jks
 ```
 
-Get signing request out from keystore
+Get signing request out from broker keystore
 ```bash
-keytool -keystore kafka.server.keystore.jks -certreq -file cert-csr -storepass $SRVPASS -keypass $SRVPASS
+keytool -keystore kafka.server.keystore.jks -certreq -file broker-csr -storepass $SRVPASS -keypass $SRVPASS
 
-# cert-csr -> CSR generated
+# broker-csr -> CSR generated
 ```
 
 Sign the certificate
 ```bash
-openssl x509 -req -CA ca-cert -CAkey ca-key -in cert-csr -out cert-signed -days 365 -CAcreateserial -passin pass:$SRVPASS
+openssl x509 -req -CA ca-cert -CAkey ca-key -in broker-csr -out broker-cert-signed -days 365 -CAcreateserial -passin pass:$SRVPASS
 
-# cert-signed -> signed CA certificate
+# broker-cert-signed -> signed CA certificate
 ```
 
 Print signed certificate
 ```bash
-keytool -printcert -v -file cert-signed
+keytool -printcert -v -file broker-cert-signed
 ```
 
 Import CA certificate and signed certificate into broker keystore:
 ```bash
 keytool -keystore kafka.server.keystore.jks -alias CARoot -import -file ca-cert -storepass $SRVPASS -keypass $SRVPASS -noprompt
 
-keytool -keystore kafka.server.keystore.jks  -import -file cert-signed -storepass $SRVPASS -keypass $SRVPASS -noprompt
+keytool -keystore kafka.server.keystore.jks  -import -file broker-cert-signed -storepass $SRVPASS -keypass $SRVPASS -noprompt
 ```
 
 ## Kafka Broker TrustStore
@@ -94,3 +94,39 @@ ssl.truststore.location=<path_to_ssl_files_dir>/kafka.client.truststore.jks
 ssl.truststore.password=clientsecret
 ```
 
+## Kafka Client KeyStore for SSL Auth
+Create kafka client keystore
+```bash
+keytool  -genkey -keystore kafka.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=mylaptop" -alias mylaptop -keyalg RSA -storetype pkcs12
+```
+
+Create a CSR from the client keystore
+```bash
+keytool -keystore kafka.client.keystore.jks -certreq -file $SSL_FILES_DIR/client-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
+```
+
+Sign the client certificate using the CA
+```bash
+openssl x509 -req -CA ca-cert -CAkey ca-key -in client-csr -out client-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
+```
+
+Import CA certificate into client keystore
+```bash
+keytool -keystore kafka.client.keystore.jks -alias CARoot -import -file ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
+```
+
+Import signed certificate into client keystore
+```bash
+keytool -keystore kafka.client.keystore.jks  -import -file client-cert-signed -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS -noprompt
+```
+
+## Kafka Client SSL Auth Properties
+Define a `client-ssl-auth.properties` 
+```properties
+security.protocol=SSL
+ssl.truststore.location=<path_to_ssl_files_dir>/kafka.client.truststore.jks
+ssl.truststore.password=clientsecret
+ssl.keystore.location=<path_to_ssl_files_dir>/kafka.client.keystore.jks
+ssl.keystore.password=clientsecret
+ssl.key.password=clientsecret
+```
