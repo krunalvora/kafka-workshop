@@ -15,7 +15,7 @@ export SRVPASS=serversecret
 
 Create a Kafka Broker keystore
 ```bash
-keytool  -genkey -keystore kafka.server.keystore.jks -validity 365 -storepass $SRVPASS -keypass $SRVPASS -dname "CN=localhost" -storetype pkcs12 -keyalg RSA
+keytool  -genkey -keystore kafka.server.keystore.jks -validity 365 -storepass $SRVPASS -keypass $SRVPASS -dname "CN=$KAFKA_SERVER" -storetype pkcs12 -keyalg RSA
 
 # kafka.server.keystore.jks -> Kafka Broker keystore file
 ```
