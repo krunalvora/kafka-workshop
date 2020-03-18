@@ -15,4 +15,7 @@ sudo systemctl enable kafka
 
 sudo systemctl [status | start | stop] zookeeper
 sudo systemctl [status | start | stop] kafka
+
+sudo journalctl -u kafka
+sudo journalctl -u zookeeper
 ```
