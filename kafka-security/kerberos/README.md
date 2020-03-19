@@ -221,7 +221,7 @@ KafkaClient {
 security.protocol=SASL_SSL
 sasl.kerberos.service.name=kafka
 ssl.truststore.location=/home/ubuntu/ssl/kafka.client.truststore.jks
-ssl.truststore.password=clientpass
+ssl.truststore.password=clientsecret
 
 ```
 
