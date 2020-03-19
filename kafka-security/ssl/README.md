@@ -154,21 +154,31 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 ### Quick steps for creating an SSL Auth User
 
-To authenticate a new user `bob`, follow these instructions:
+1. User `bob` generates a key for himself using `keytool`.
 ```bash
 export CLIPASS="clientsecret"
 
 keytool  -genkey -keystore bob.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=bob" -alias bob -keyalg RSA -storetype pkcs12
+```
 
+2. `bob` creates a CSR (Certificate Signing Request) to be signed by the CA from the key generate above.
+```bash
 keytool -keystore bob.client.keystore.jks -certreq -file bob-csr -alias bob -storepass $CLIPASS -keypass $CLIPASS
+```
 
+3. `bob` requests the CA to sign the CSR. On the CA side:
+```bash
 # Done by CA
 openssl x509 -req -CA ca-cert -CAkey ca-key -in bob-csr -out bob-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
+```
+CA service provides the signed certificate as well as the public CA cert back to `bob`.
 
+4. `bob` imports the signed certificate and the public CA cert into his keystore.
+```bash
 keytool -keystore bob.client.keystore.jks  -import -file ca-cert -alias CARoot -storepass $CLIPASS -keypass $CLIPASS -noprompt
 
 keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
-> `./create_client_keystores.sh bob` automates the above steps.
+> `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
 After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
