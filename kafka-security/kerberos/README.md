@@ -210,11 +210,23 @@ sudo systemctl restart kafka
 Create jaas file for client `/tmp/kafka_client_jaas.conf`
 ```
 KafkaClient {
- com.sun.security.auth.module.Krb5LoginModule required
- useTicketCache=true;
- };
+  com.sun.security.auth.module.Krb5LoginModule required
+  useTicketCache=true;
+};
 
 ```
+
+jaas file to skip doing a `kinit` before starting your client
+```
+KafkaClient {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/tmp/reader.user.keytab"
+    principal="reader@KAFKA.SECURE";
+};
+```
+
 
 `/tmp/kafka_client_kerberos.properties`
 ```properties
@@ -225,16 +237,24 @@ ssl.truststore.password=clientsecret
 
 ```
 
+Grab a ticket for a user
 ```bash
 export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka_client_jaas.conf"
 
+kdestroy # Emplty the cache
+
 kinit -kt /tmp/writer.user.keytab writer
 
-klist # ticket cache
+klist # Ticket cache
 
 ```
 
+Start up the console producer/consumer
+```bash
+kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config kafka_client_kerberos.properties
 
+kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config kafka_client_kerberos.properties
+```
 
 
 
