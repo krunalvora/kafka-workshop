@@ -156,6 +156,8 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 To authenticate a new user `bob`, follow these instructions:
 ```bash
+export CLIPASS="clientsecret"
+
 keytool  -genkey -keystore bob.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=bob" -alias bob -keyalg RSA -storetype pkcs12
 
 keytool -keystore bob.client.keystore.jks -certreq -file bob-csr -alias bob -storepass $CLIPASS -keypass $CLIPASS
