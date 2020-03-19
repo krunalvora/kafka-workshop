@@ -5,7 +5,7 @@ SSL_FILES_DIR="ssl_files"
 CLIPASS="clientsecret"
 
 
-printf "\nCreating SSL Auth User: $USER\n\n"
+printf "\nCreating SSL Auth Client KeyStores for User: $USER\n\n"
 keytool  -genkey -keystore $SSL_FILES_DIR/$USER.client.keystore.jks \
     -validity 365 -storepass $CLIPASS -keypass $CLIPASS \
     -dname "CN=$USER" -alias $USER -keyalg RSA -storetype pkcs12

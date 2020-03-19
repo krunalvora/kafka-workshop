@@ -169,6 +169,6 @@ keytool -keystore bob.client.keystore.jks  -import -file ca-cert -alias CARoot -
 
 keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
-> `./create_ssl_auth_user.sh bob` automates the above steps.
+> `./create_client_keystores.sh bob` automates the above steps.
 
 After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
