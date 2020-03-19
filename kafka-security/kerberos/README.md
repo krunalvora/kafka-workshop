@@ -9,6 +9,17 @@
 3. [Kerberos Database](#kerberos-database)
 4. [Kerberos Admin Principal](#kerberos-admin-principal)
 5. [Start Kerberos Services](#start-kerberos-services)
+6. [Kerberos User Principals](#kerberos-user-principals)
+7. [Kerberos Keytabs](#kerberos-keytabs)
+    1. [List Keytabs](#list-keytabs)
+8. [Install Kerberos Client Tools](#install-kerberos-client-tools)
+9. [Kafka Server JAAS Configuration](#kafka-server-jaas-configuration)
+10. [Kafka Server SASL/Kerberos Configuration](#kafka-server-saslkerberos-configuration)
+11. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
+12. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
+13. [Kafka Client Kerberos Tickets](#kafka-client-kerberos-tickets)
+14. [Producer/Consumer with SASL/Kerberos](#producerconsumer-with-saslkerberos)
+
 
 
 ### Install Kerberos Server
@@ -166,15 +177,6 @@ Define `/etc/krb5.conf`:
 ```
 
 
-### Kafka Server SASL/Kerberos Configuration
-```properties
-listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093,SASL_SSL://0.0.0.0:9094
-advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9093,SASL_SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
-
-sasl.enabled.mechanisms=GSSAPI
-sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
-```
-
 ### Kafka Server JAAS Configuration
 `kafka_server_jaas.conf`
 ```
@@ -187,7 +189,6 @@ KafkaServer {
 };
 ```
 
-#### KAFKA_OPTS for JAAS
 ```bash
 export "KAFKA_OPTS=-Djava.security.auth.login.config=/home/ubuntu/kafka/config/kafka_server_jaas.conf"
 ```
@@ -216,6 +217,17 @@ sudo systemctl daemon-reload
 
 sudo systemctl restart kafka
 ```
+
+### Kafka Server SASL/Kerberos Configuration
+```properties
+listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093,SASL_SSL://0.0.0.0:9094
+advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9093,SASL_SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
+
+sasl.enabled.mechanisms=GSSAPI
+sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
+```
+
+Restart Kafka Server.
 
 
 ### Kafka Client JAAS Configuration
