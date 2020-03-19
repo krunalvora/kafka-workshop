@@ -85,6 +85,7 @@ ssl.truststore.location=<path_to_ssl_files_dir>/kafka.server.truststore.jks
 ssl.truststore.password=serversecret
 
 ssl.client.auth=required
+ssl.endpoint.identification.algorithm=
 ```
 
 
@@ -153,13 +154,15 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
 
 ### Quick steps for creating an SSL Auth User
 ```bash
-keytool  -genkey -keystore kafka.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=mylaptop" -alias mylaptop -keyalg RSA -storetype pkcs12
+keytool  -genkey -keystore bob.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=bob" -alias bob -keyalg RSA -storetype pkcs12
 
-keytool -keystore kafka.client.keystore.jks -certreq -file mylaptop-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
+keytool -keystore bob.client.keystore.jks -certreq -file bob-csr -alias bob -storepass $CLIPASS -keypass $CLIPASS
 
 # Done by CA
-openssl x509 -req -CA ca-cert -CAkey ca-key -in mylaptop-csr -out mylaptop-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
+openssl x509 -req -CA ca-cert -CAkey ca-key -in bob-csr -out bob-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
 
-keytool -keystore kafka.client.keystore.jks  -import -file mylaptop-cert-signed -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore bob.client.keystore.jks  -import -file ca-cert -alias CARoot -storepass $CLIPASS -keypass $CLIPASS -noprompt
+
+keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
-After the signed certificate for `mylaptop` is imported into `kafka.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
+After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
