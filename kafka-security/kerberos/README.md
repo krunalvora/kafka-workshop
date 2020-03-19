@@ -19,7 +19,7 @@
 12. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 13. [Kafka Client Kerberos Tickets](#kafka-client-kerberos-tickets)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
-
+15. [Quick steps for creating a SASL/Kerberos User](#quick-steps-for-creating-a-saslkerberos-user)
 
 
 ### Install Kerberos Server
@@ -137,14 +137,11 @@ sudo klist -kt /tmp/writer.user.keytab
 sudo chmod a+r /tmp/*.keytab
 ```
 
-Secure copy `/tmp/kafka.service.keytab` onto the kafka broker
+Secure copy `/tmp/kafka.service.keytab` onto the kafka broker.
 
+Secure copy all the keytab files into local machine.
 
-Secure copy all the keytab files into local machine
 ```bash
-
-scp -i ~/.ssh/id_rsa_aws.pem centos@ec2-54-153-70-110.us-west-1.compute.amazonaws.com:/tmp/*.keytab /tmp/
-
 chmod 600 /tmp/*.keytab
 ```
 
@@ -281,6 +278,23 @@ kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --prod
 
 kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config /tmp/kafka_client_kerberos.properties
 ```
+
+### Quick steps for creating a SASL/Kerberos User
+```bash
+# On the kerberos server
+sudo kadmin.local -q "add_principal -randkey testuser@KAFKA.SECURE"
+sudo kadmin.local -q "xst -kt /tmp/testuser.user.keytab testuser@KAFKA.SECURE"
+sudo chmod a+r /tmp/testuser.user.keytab
+
+# Copy /tmp/testuser.user.keytab onto the client machine
+
+# On client machine
+kdestroy
+kinit -kt /tmp/testuser.user.keytab testuser
+```
+After the ticket for `testuser` is cached, follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
+
+
 
 
 

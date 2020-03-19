@@ -27,6 +27,13 @@ ssl.principal.mapping.rules=RULE:^CN=(.*?)/$1/L
 kafka-topics.sh --zookeeper $KAFKA_SERVER:2181 --create --topic acl-test --replication-factor 1 --partitions 1
 ```
 
+## ACL Principals
+Users identified by the Kafka authentication mechanism serve as the principals in Kafka authorization. Refer:
+
+[Quick steps for creating an SSL Auth User]() for SSL Authentication 
+
+[Quick steps for creating a SASL/Kerberos User]() for SASL/Kerberos Authentication and
+
 
 ## ACL commands
 ### List Topic ACL

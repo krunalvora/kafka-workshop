@@ -10,6 +10,7 @@
 7. [Kafka Client KeyStore for SSL Authentication](#kafka-client-keystore-for-ssl-authentication)
 8. [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties)
 9. [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication)
+10. [Quick steps for creating an SSL Auth User](#quick-steps-for-creating-an-ssl-auth-user)
 
 ## Certificate Authority
 Create a CA
@@ -114,7 +115,7 @@ keytool  -genkey -keystore kafka.client.keystore.jks -validity 365 -storepass $C
 
 ### Create a CSR from the client keystore
 ```bash
-keytool -keystore kafka.client.keystore.jks -certreq -file $SSL_FILES_DIR/client-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
+keytool -keystore kafka.client.keystore.jks -certreq -file client-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
 ```
 
 ### Sign the client certificate using the CA
@@ -149,3 +150,16 @@ kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --prod
 
 kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config client-ssl-auth.properties
 ```
+
+### Quick steps for creating an SSL Auth User
+```bash
+keytool  -genkey -keystore kafka.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=mylaptop" -alias mylaptop -keyalg RSA -storetype pkcs12
+
+keytool -keystore kafka.client.keystore.jks -certreq -file mylaptop-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
+
+# Done by CA
+openssl x509 -req -CA ca-cert -CAkey ca-key -in mylaptop-csr -out mylaptop-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
+
+keytool -keystore kafka.client.keystore.jks  -import -file mylaptop-cert-signed -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS -noprompt
+```
+After the signed certificate for `mylaptop` is imported into `kafka.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
