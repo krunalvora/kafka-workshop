@@ -154,7 +154,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 ### Quick steps for creating an SSL Auth User
 
-1. User `bob` generates a key for himself using `keytool`.
+1. User `bob` generates a keystore for himself using `keytool`.
 
         export CLIPASS="clientsecret"
         keytool  -genkey -keystore bob.client.keystore.jks -dname "CN=bob" -alias bob -validity 365 -storepass $CLIPASS -keypass $CLIPASS -keyalg RSA -storetype pkcs12
