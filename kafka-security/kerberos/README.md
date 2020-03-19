@@ -4,6 +4,12 @@
 1. [Install Kerberos Server](#install-kerberos-server)
 2. [Kerberos Configuration](#kerberos-configuration)
   1. [kdc.conf](#kdcconf)
+  2. [kadm5.acl](#kadm5acl)
+  3. [krb5.conf](#krb5.conf)
+3. [Kerberos Database](#kerberos-database)
+4. [Kerberos Admin Principal](#kerberos-admin-principal)
+5. [Start Kerberos Services](#start-kerberos-services)
+
 
 ### Install Kerberos Server
 ```bash
