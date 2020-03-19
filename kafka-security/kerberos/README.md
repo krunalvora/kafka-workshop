@@ -267,11 +267,11 @@ ssl.truststore.password=clientsecret
 ```bash
 export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka_client_jaas.conf"
 
-kdestroy # Emplty the cache
+kdestroy          #Emplty the cache
 
 kinit -kt /tmp/writer.user.keytab writer
 
-klist # Ticket cache
+klist             #Ticket cache
 
 ```
 
