@@ -281,19 +281,23 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
 
 ### Quick steps for creating a SASL/Kerberos User
 
-To authenticate a new user `alice`, follow these instructions:
-```bash
-# On the kerberos server
-sudo kadmin.local -q "add_principal -randkey alice@KAFKA.SECURE"
-sudo kadmin.local -q "xst -kt /tmp/alice.user.keytab alice@KAFKA.SECURE"
-sudo chmod a+r /tmp/alice.user.keytab
+1. User `alice` requests the Kerberos Service to create a new principal for her and provide a keytab.
 
-# Copy /tmp/alice.user.keytab onto the client machine
+2. On the kerberos server: 
 
-# On client machine
-kdestroy
-kinit -kt /tmp/alice.user.keytab alice
-```
+        # On the kerberos server
+        sudo kadmin.local -q "add_principal -randkey alice@KAFKA.SECURE"
+        sudo kadmin.local -q "xst -kt /tmp/alice.user.keytab alice@KAFKA.SECURE"
+        sudo chmod a+r /tmp/alice.user.keytab
+
+        # Kerberos service provides Alice with `alice.user.keytab`
+
+3. `alice` uses the provided keytab to grab a ticket into the ticket cache.
+
+        kdestroy
+        kinit -kt /tmp/alice.user.keytab alice
+
+
 After the ticket for `alice` is cached, follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
 
 
