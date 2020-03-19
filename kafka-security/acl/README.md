@@ -31,27 +31,27 @@ kafka-topics.sh --zookeeper $KAFKA_SERVER:2181 --create --topic acl-test --repli
 ## ACL commands
 ### List Topic ACL
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$KAFKA_SERVER:2181 --list --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --list --topic acl-test
 ```
 
 ### Add ClusterAction Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal "User:admin" --cluster --operation ClusterAction
+kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --add --allow-principal "User:admin" --cluster --operation ClusterAction
 ```
 
 ### Add Read Topic Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$KAFKA_SERVER:2181 add --allow-principal "User:reader" --allow-principal "User:writer" --operation Read --group=* --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 add --allow-principal "User:reader" --allow-principal "User:writer" --operation Read --group=* --topic acl-test
 ```
 
 ### Add Write Topic Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$KAFKA_SERVER:2181 --add --allow-principal "User:writer" --operation Write --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --add --allow-principal "User:writer" --operation Write --topic acl-test
 ```
 
 ### Remove Topic Access 
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$KAFKA_SERVER:2181 --remove --allow-principal "User:reader" --operation Read --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --remove --allow-principal "User:reader" --operation Read --topic acl-test
 ```
 
 ## Debugging Authorization Issues
