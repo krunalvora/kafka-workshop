@@ -1,12 +1,22 @@
-## Kerberos Setup
+# SASL/Kerberos
 
+## Table of Contents
+1. [Install Kerberos Server](#install-kerberos-server)
+2. [Kerberos Configuration](#kerberos-configuration)
+  1. [kdc.conf](#kdcconf)
+
+### Install Kerberos Server
 ```bash
 # centos
 
 sudo yum install -y krb5-server
 ```
 
-kdc.conf - `/var/kerberos/krb5kdc/kdc.conf`
+### Kerberos Configuration
+
+#### kdc.conf
+
+`/var/kerberos/krb5kdc/kdc.conf`
 ```properties
 [kdcdefaults]
   kdc_ports = 88
@@ -21,13 +31,15 @@ kdc.conf - `/var/kerberos/krb5kdc/kdc.conf`
   }
 ```
 
-kadm5.acl - `/var/kerberos/krb5kdc/kadm5.acl`
+#### kadm5.acl
+`/var/kerberos/krb5kdc/kadm5.acl`
 ```
 */admin@KAFKA.SECURE *
 
 ```
 
-krb5.conf - `/etc/krb5.conf`
+#### krb5.conf
+`/etc/krb5.conf`
 ```
 [logging]
   default = FILE:/var/log/krb5libs.log
@@ -47,24 +59,25 @@ krb5.conf - `/etc/krb5.conf`
 
 ```
 
-### Create kerberos database
+### Kerberos Database
 ```bash
 sudo /usr/sbin/kdb5_util create -s -r KAFKA.SECURE -P this-is-unsecure
 ```
 
-### Create admin principal
+### Kerberos Admin Principal
+
 ```bash
 sudo kadmin.local -q "add_principal -pw this-is-unsecure admin/admin"
 ```
 
-Start kerberos services
+### Start Kerberos Services
 ```bash
 sudo systemctl restart krb5kdc
 
 sudo systemctl restart kadmin
 ```
 
-### Create User principals
+### Kerberos User Principals
 
 > kadmin.local -> from within the kerberos server
 > kadmin -> remote commands
@@ -85,7 +98,7 @@ Create kafka principal for every single broker in the kafka cluster
 sudo kadmin.local -q "add_principal -randkey kafka/<KAFKA_BROKER_PUBLIC_DNS>@KAFKA.SECURE"
 ```
 
-### Export principals into keytab
+### Kerberos Keytabs
 ```bash
 sudo kadmin.local -q "xst -kt /tmp/reader.user.keytab reader@KAFKA.SECURE"
 
@@ -98,7 +111,7 @@ sudo kadmin.local -q "xst -kt /tmp/kafka.service.keytab kafka/<KAFKA_BROKER_PUBL
 
 > In the real world, keytab files would be provided to each user which is supposed to be secured by the user as her identity. It later on can be used for authorization.
 
-#### View the keytab files 
+#### List Keytabs
 ```bash
 sudo klist -kt /tmp/writer.user.keytab
 ```
@@ -119,12 +132,14 @@ chmod 600 /tmp/*.keytab
 ```
 
 
-### Install kerberos client tools (`krb5-user`) on local laptop and kafka server
+### Install Kerberos Client Tools 
+
+Install package `krb5-user` on local laptop and kafka server
 ```bash
 export DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y krb5-user
 ```
 
-/etc/krb5.conf
+Define `/etc/krb5.conf`:
 ```
 [logging]
   default = FILE:/var/log/krb5libs.log
@@ -144,26 +159,18 @@ export DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y krb5-user
 
 ```
 
-Grab a ticket and list the ticket cache
-```bash
-# kinit -kt <keytab> <principal> to grab a ticket for a principal
-sudo kinit -kt /tmp/admin.user.keytab admin
 
-# List the ticket cache
-sudo klist
-```
-
-
-### Kafka Server Configuration for SASL/GSSAPI
+### Kafka Server SASL/Kerberos Configuration
 ```properties
 listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093,SASL_SSL://0.0.0.0:9094
 advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9093,SASL_SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
 
 sasl.enabled.mechanisms=GSSAPI
-sasl.kerberos.service.name=kafka # needs to match the kafka principal from kerberos server
+sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
 ```
 
-### kafka_server_jaas.conf
+### Kafka Server JAAS Configuration
+`kafka_server_jaas.conf`
 ```
 KafkaServer {
     com.sun.security.auth.module.Krb5LoginModule required
@@ -174,7 +181,7 @@ KafkaServer {
 };
 ```
 
-### SASL configuration environment variable
+#### KAFKA_OPTS for JAAS
 ```bash
 export "KAFKA_OPTS=-Djava.security.auth.login.config=/home/ubuntu/kafka/config/kafka_server_jaas.conf"
 ```
@@ -205,7 +212,7 @@ sudo systemctl restart kafka
 ```
 
 
-### Kafka Client Configuration for SASL/GSSAPI
+### Kafka Client JAAS Configuration
 
 Create jaas file for client `/tmp/kafka_client_jaas.conf`
 ```
@@ -216,7 +223,7 @@ KafkaClient {
 
 ```
 
-jaas file to skip doing a `kinit` before starting your client
+JAAS file to skip doing a `kinit` before starting your client
 ```
 KafkaClient {
     com.sun.security.auth.module.Krb5LoginModule required
@@ -228,6 +235,7 @@ KafkaClient {
 ```
 
 
+### Kafka Client SASL/Kerberos Properties
 `/tmp/kafka_client_kerberos.properties`
 ```properties
 security.protocol=SASL_SSL
@@ -237,7 +245,7 @@ ssl.truststore.password=clientsecret
 
 ```
 
-Grab a ticket for a user
+### Kafka Client Kerberos Tickets
 ```bash
 export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka_client_jaas.conf"
 
@@ -249,7 +257,7 @@ klist # Ticket cache
 
 ```
 
-Start up the console producer/consumer
+### Producer/Consumer with SASL/Kerberos
 ```bash
 kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config kafka_client_kerberos.properties
 
