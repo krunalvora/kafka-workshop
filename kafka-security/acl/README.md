@@ -45,5 +45,15 @@ kafka-acls.sh --authorizer-properties zookeeper.connect=$KAFKA_SERVER:2181 \
     --topic acl-test
 ```
 
+## Debugging Authorization Issues
+
+Log file:  `<KAFKA_INSTALLATION_DIR>/kafka/logs/kafka-authorizer.log`
+Default log level is INFO, only DENIED logs are available.
+
+To enable success logs, change `<KAFKA_INSTALLATION_DIR>/kafka/conf/log4j.properties`, set
+```properties
+log4j.logger.kafka.authorizer.logger=DEBUG
+```
+
 
 
