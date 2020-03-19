@@ -225,6 +225,15 @@ ssl.truststore.password=clientpass
 
 ```
 
+```bash
+export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka_client_jaas.conf"
+
+kinit -kt /tmp/writer.user.keytab writer
+
+klist # ticket cache
+
+```
+
 
 
 
