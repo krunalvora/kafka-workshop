@@ -59,7 +59,6 @@ export PATH=$KAFKA_HOME/bin:$PATH
 #### Using Zookeeper shell scripts
 
 ```bash
-
 # Command options within [] are optional. Please make the relevant changes to your command before running them.
 # -daemon runs the process in background
 $KAFKA_HOME/bin/zookeeper-server-start.sh [-daemon] $KAFKA_HOME/config/zookeeper.properties
@@ -87,7 +86,8 @@ sudo systemctl [status | start | stop] zookeeper
 
 #### Using Kafka shell scripts
 ```bash
-cd ~/kafka
+# Setting environment variables for Kafka
+export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 
 # -daemon runs the process in background
 $KAFKA_HOME/bin/kafka-server-start.sh [-daemon] $KAFKA_HOME/config/server.properties
