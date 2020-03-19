@@ -18,7 +18,7 @@
 11. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
 12. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 13. [Kafka Client Kerberos Tickets](#kafka-client-kerberos-tickets)
-14. [Producer/Consumer with SASL/Kerberos](#producerconsumer-with-saslkerberos)
+14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
 
 
 
@@ -232,7 +232,7 @@ Restart Kafka Server.
 
 ### Kafka Client JAAS Configuration
 
-Create jaas file for client `/tmp/kafka_client_jaas.conf`
+`/tmp/kafka_client_jaas.conf`
 ```
 KafkaClient {
   com.sun.security.auth.module.Krb5LoginModule required
@@ -275,11 +275,11 @@ klist # Ticket cache
 
 ```
 
-### Producer/Consumer with SASL/Kerberos
+### Console Producer/Consumer with SASL/Kerberos
 ```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config kafka_client_kerberos.properties
+kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config /tmp/kafka_client_kerberos.properties
 
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config kafka_client_kerberos.properties
+kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config /tmp/kafka_client_kerberos.properties
 ```
 
 
