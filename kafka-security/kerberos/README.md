@@ -1,4 +1,4 @@
-# SASL/Kerberos
+# SASL/Kerberos Authentication
 
 ## Table of Contents
 1. [Install Kerberos Server](#install-kerberos-server)
