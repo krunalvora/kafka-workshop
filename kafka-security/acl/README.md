@@ -2,6 +2,7 @@
 
 ## Table of Contents
 1. [Kafka Server Authorization Properties](#kafka-server-authorization-properties)
+2. [ACL Principals](#acl-principals)
 2. [ACL commands](#acl-commands)
     1. [List Topic ACL](#list-topic-acl)
     2. [Add ClusterAction Access](#add-clusteraction-access)
@@ -30,9 +31,13 @@ kafka-topics.sh --zookeeper $KAFKA_SERVER:2181 --create --topic acl-test --repli
 ## ACL Principals
 Users identified by the Kafka authentication mechanism serve as the principals in Kafka authorization. Refer:
 
-[Quick steps for creating an SSL Auth User]() for SSL Authentication 
+[Quick steps for creating an SSL Auth User](https://github.com/krunalvora/apachekafka101/tree/kafka-security/kafka-security/ssl#quick-steps-for-creating-an-ssl-auth-user) for SSL Authentication 
 
-[Quick steps for creating a SASL/Kerberos User]() for SASL/Kerberos Authentication and
+> Principal for SSL -> `dname` while generating key for `kafka.client.keystore.jks` (optionally with rules as shown above in [Kafka Server Authorization Properties](#kafka-server-authorization-properties)) 
+
+[Quick steps for creating a SASL/Kerberos User](https://github.com/krunalvora/apachekafka101/tree/kafka-security/kafka-security/kerberos#quick-steps-for-creating-a-saslkerberos-user) for SASL/Kerberos Authentication
+
+> Principal for SASL/Kerberos -> kerberos principal of the user 
 
 
 ## ACL commands
