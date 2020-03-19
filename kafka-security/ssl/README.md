@@ -147,9 +147,9 @@ ssl.key.password=clientsecret
 
 ### Console Producer/Consumer with SSL Authentication
 ```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config client-ssl-auth.properties
+kafka-console-producer.sh --broker-list $KAFKA_SERVER:9093 --topic topic1 --producer.config client-ssl-auth.properties
 
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config client-ssl-auth.properties
+kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 --consumer.config client-ssl-auth.properties
 ```
 
 ### Quick steps for creating an SSL Auth User
