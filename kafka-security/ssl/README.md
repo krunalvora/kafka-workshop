@@ -153,6 +153,8 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
 ```
 
 ### Quick steps for creating an SSL Auth User
+
+To authenticate a new user `bob`, follow these instructions:
 ```bash
 keytool  -genkey -keystore bob.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=bob" -alias bob -keyalg RSA -storetype pkcs12
 
@@ -165,4 +167,6 @@ keytool -keystore bob.client.keystore.jks  -import -file ca-cert -alias CARoot -
 
 keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
+> `./create_ssl_auth_user.sh bob` automates the above steps.
+
 After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
