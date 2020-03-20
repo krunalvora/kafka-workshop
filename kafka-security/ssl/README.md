@@ -177,6 +177,10 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
         
 
+5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation access to any topic/group/cluster.
+
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
 After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
+
+
