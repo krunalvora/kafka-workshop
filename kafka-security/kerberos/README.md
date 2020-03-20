@@ -297,6 +297,8 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
         kdestroy
         kinit -kt /tmp/alice.user.keytab alice
 
+4. `alice` requests the Kafka Ops to add the principal `User:alice` to add Read/Write operation for any topic/group/cluster ACLs.
+
 
 After the ticket for `alice` is cached, follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
 

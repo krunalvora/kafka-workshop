@@ -177,7 +177,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         keytool -keystore bob.client.keystore.jks  -import -file bob-cert-signed -alias bob -storepass $CLIPASS -keypass $CLIPASS -noprompt
         
 
-5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation access to any topic/group/cluster.
+5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation for any topic/group/cluster ACLs.
 
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
