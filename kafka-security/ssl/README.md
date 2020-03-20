@@ -179,7 +179,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation for any topic/group/cluster ACLs.
 
-6. `bob` defines a `client.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
+6. `bob` defines a `client-ssl-auth.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
 
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
