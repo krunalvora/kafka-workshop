@@ -135,7 +135,7 @@ keytool -keystore <user>.client.keystore.jks  -import -file <user>-cert-signed -
 ```
 
 ## Kafka Client SSL Authentication Properties
-`client-ssl-auth.properties` 
+`client_ssl_auth.properties` 
 ```properties
 security.protocol=SSL
 ssl.truststore.location=<path_to_ssl_files_dir>/<user>.client.truststore.jks
@@ -147,9 +147,9 @@ ssl.key.password=clientsecret
 
 ### Console Producer/Consumer with SSL Authentication
 ```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9093 --topic topic1 --producer.config client-ssl-auth.properties
+kafka-console-producer.sh --broker-list $KAFKA_SERVER:9093 --topic topic1 --producer.config client_ssl_auth.properties
 
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 --consumer.config client-ssl-auth.properties
+kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 --consumer.config client_ssl_auth.properties
 ```
 
 ### Quick steps for creating an SSL Auth User
@@ -163,12 +163,10 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         
         keytool -keystore bob.client.keystore.jks -certreq -file bob-csr -alias bob -storepass $CLIPASS -keypass $CLIPASS
 
-3. `bob` requests the CA to sign the CSR. On the CA side:
+3. CA signs the CSR upon `bob`'s request and provides the signed certificate along with the public `ca-cert` to `bob`.
 
         # Done by CA
         openssl x509 -req -CA ca-cert -CAkey ca-key -in bob-csr -out bob-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
-
-        # CA service provides the signed certificate as well as the public CA cert back to Bob.
 
 4. `bob` imports the signed certificate and the public CA cert into his keystore.
 
@@ -179,10 +177,10 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation for any topic/group/cluster ACLs.
 
-6. `bob` defines a `client-ssl-auth.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
+6. `bob` defines a `client_ssl_auth.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
 
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
-After the signed certificate for `bob` is imported into `bob.client.keystore.jks`, follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
+`bob` can now follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
 
 
