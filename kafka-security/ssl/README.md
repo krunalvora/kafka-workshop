@@ -111,34 +111,34 @@ ssl.truststore.password=clientsecret
 ## Kafka Client KeyStore for SSL Authentication
 ### Create kafka client keystore
 ```bash
-keytool  -genkey -keystore kafka.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=mylaptop" -alias mylaptop -keyalg RSA -storetype pkcs12
+keytool  -genkey -keystore <user>.client.keystore.jks -validity 365 -storepass $CLIPASS -keypass $CLIPASS -dname "CN=<user>" -alias <user> -keyalg RSA -storetype pkcs12
 ```
 
 ### Create a CSR from the client keystore
 ```bash
-keytool -keystore kafka.client.keystore.jks -certreq -file client-csr -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS
+keytool -keystore <user>.client.keystore.jks -certreq -file <user>-csr -alias <user> -storepass $CLIPASS -keypass $CLIPASS
 ```
 
 ### Sign the client certificate using the CA
 ```bash
-openssl x509 -req -CA ca-cert -CAkey ca-key -in client-csr -out client-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
+openssl x509 -req -CA ca-cert -CAkey ca-key -in <user>-csr -out <user>-cert-signed -days 365 -CAcreateserial -passin pass:$CLIPASS
 ```
 
 ### Import CA certificate into client keystore
 ```bash
-keytool -keystore kafka.client.keystore.jks -alias CARoot -import -file ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore <user>.client.keystore.jks -alias CARoot -import -file ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
 
 ### Import signed certificate into client keystore
 ```bash
-keytool -keystore kafka.client.keystore.jks  -import -file client-cert-signed -alias mylaptop -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore <user>.client.keystore.jks  -import -file <user>-cert-signed -alias <user> -storepass $CLIPASS -keypass $CLIPASS -noprompt
 ```
 
 ## Kafka Client SSL Authentication Properties
 `client-ssl-auth.properties` 
 ```properties
 security.protocol=SSL
-ssl.truststore.location=<path_to_ssl_files_dir>/kafka.client.truststore.jks
+ssl.truststore.location=<path_to_ssl_files_dir>/<user>.client.truststore.jks
 ssl.truststore.password=clientsecret
 ssl.keystore.location=<path_to_ssl_files_dir>/kafka.client.keystore.jks
 ssl.keystore.password=clientsecret
@@ -154,7 +154,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 ### Quick steps for creating an SSL Auth User
 
-1. User `bob` generates a keystore for himself using `keytool`.
+1. User `bob` generates a client keystore.
 
         export CLIPASS="clientsecret"
         keytool  -genkey -keystore bob.client.keystore.jks -dname "CN=bob" -alias bob -validity 365 -storepass $CLIPASS -keypass $CLIPASS -keyalg RSA -storetype pkcs12
@@ -178,6 +178,8 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         
 
 5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation for any topic/group/cluster ACLs.
+
+6. `bob` defines a `client.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
 
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
