@@ -159,7 +159,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         export CLIPASS="clientsecret"
         keytool  -genkey -keystore bob.client.keystore.jks -dname "CN=bob" -alias bob -validity 365 -storepass $CLIPASS -keypass $CLIPASS -keyalg RSA -storetype pkcs12
 
-2. `bob` creates a CSR (Certificate Signing Request) to be signed by the CA from the key generate above.
+2. `bob` creates a CSR (Certificate Signing Request) to be signed by the CA from the key generated above.
         
         keytool -keystore bob.client.keystore.jks -certreq -file bob-csr -alias bob -storepass $CLIPASS -keypass $CLIPASS
 
