@@ -41,7 +41,7 @@ keytool -list -v -keystore kafka.server.keystore.jks
 
 ### Get signing request out from server keystore
 ```bash
-keytool -keystore kafka.server.keystore.jks -certreq -file broker-csr -storepass $SRVPASS -keypass $SRVPASS
+keytool -keystore kafka.server.keystore.jks -certreq -file broker-csr -alias "$KAFKA_SERVER" -storepass $SRVPASS -keypass $SRVPASS
 
 # broker-csr -> CSR generated
 ```
