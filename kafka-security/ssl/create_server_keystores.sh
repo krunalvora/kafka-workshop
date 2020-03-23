@@ -6,12 +6,14 @@ SRVPASS="serversecret"
 printf "\nCreating SSL Auth Kafka Server KeyStores\n\n"
 
 ## Kafka Broker KeyStore
-keytool  -genkey -keystore $SSL_FILES_DIR/kafka.server.keystore.jks -validity 365 \
-  -storepass $SRVPASS -keypass $SRVPASS -dname "CN=$KAFKA_SERVER" -keyalg RSA -storetype pkcs12
+keytool  -genkey -keystore $SSL_FILES_DIR/kafka.server.keystore.jks \
+  -dname "CN=$KAFKA_SERVER" -alias "$KAFKA_SERVER" \
+  -validity 365 -storepass $SRVPASS -keypass $SRVPASS -keyalg RSA -storetype pkcs12
 
 # keytool -list -v -keystore $SSL_FILES_DIR/kafka.server.keystore.jks
 
-keytool -keystore $SSL_FILES_DIR/kafka.server.keystore.jks -certreq -file $SSL_FILES_DIR/broker-csr \
+keytool -keystore $SSL_FILES_DIR/kafka.server.keystore.jks -certreq \
+  -file $SSL_FILES_DIR/broker-csr -alias "$KAFKA_SERVER" \
   -storepass $SRVPASS -keypass $SRVPASS
 
 
