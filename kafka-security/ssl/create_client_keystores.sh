@@ -26,7 +26,7 @@ keytool -keystore $SSL_FILES_DIR/$USER.client.keystore.jks  -import \
     -file $SSL_FILES_DIR/$USER-cert-signed -alias $USER \
     -storepass $CLIPASS -keypass $CLIPASS -noprompt
 
-keytool -keystore $SSL_FILES_DIR/$USER.client.truststore.jks -alias CARoot \
+keytool -keystore $SSL_FILES_DIR/kafka.client.truststore.jks -alias CARoot \
     -import -file $SSL_FILES_DIR/ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
 
 printf "\nImported signed certificate into $USER.client.keystore.jks. Done.\n\n"
