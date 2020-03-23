@@ -29,7 +29,7 @@ export SRVPASS=serversecret
 
 ### Create a Kafka Server keystore
 ```bash
-keytool  -genkey -keystore kafka.server.keystore.jks -validity 365 -storepass $SRVPASS -keypass $SRVPASS -dname "CN=$KAFKA_SERVER" -storetype pkcs12 -keyalg RSA
+keytool -genkey -keystore kafka.server.keystore.jks -dname "CN=$KAFKA_SERVER" -alias "$KAFKA_SERVER" -validity 365 -storepass $SRVPASS -keypass $SRVPASS -storetype pkcs12 -keyalg RSA
 
 # kafka.server.keystore.jks -> Kafka Server keystore file
 ```
