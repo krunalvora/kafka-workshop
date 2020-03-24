@@ -1,32 +1,34 @@
 #!/bin/bash
 
 USER=$1
-SSL_FILES_DIR="ssl_files"
-CLIPASS="clientsecret"
+CA_DIR="/tmp/ca"
+KS_DIR="/tmp/client_keystores"
+PASS="clientsecret"
 
+mkdir -p $KS_DIR
 
 printf "\nCreating SSL Auth Client KeyStores for User: $USER\n\n"
-keytool  -genkey -keystore $SSL_FILES_DIR/$USER.client.keystore.jks \
-    -validity 365 -storepass $CLIPASS -keypass $CLIPASS \
+keytool  -genkey -keystore $KS_DIR/$USER.client.keystore.jks \
+    -validity 365 -storepass $PASS -keypass $PASS \
     -dname "CN=$USER" -alias $USER -keyalg RSA -storetype pkcs12
 
-keytool -keystore $SSL_FILES_DIR/$USER.client.keystore.jks -certreq \
-    -file $SSL_FILES_DIR/$USER-csr -alias $USER -storepass $CLIPASS -keypass $CLIPASS
+keytool -keystore $KS_DIR/$USER.client.keystore.jks -certreq \
+    -file $KS_DIR/$USER-csr -alias $USER -storepass $PASS -keypass $PASS
 
 # Done by CA
-openssl x509 -req -CA $SSL_FILES_DIR/ca-cert -CAkey $SSL_FILES_DIR/ca-key \
-    -in $SSL_FILES_DIR/$USER-csr -out $SSL_FILES_DIR/$USER-cert-signed -days 365 \
-    -CAcreateserial -passin pass:$CLIPASS
+openssl x509 -req -CA $CA_DIR/ca-cert -CAkey $CA_DIR/ca-key \
+    -in $KS_DIR/$USER-csr -out $KS_DIR/$USER-cert-signed -days 365 \
+    -CAcreateserial -passin pass:$PASS
 
-keytool -keystore $SSL_FILES_DIR/$USER.client.keystore.jks  -import \
-    -file $SSL_FILES_DIR/ca-cert -alias CARoot \
-    -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore $KS_DIR/$USER.client.keystore.jks  -import \
+    -file $CA_DIR/ca-cert -alias CARoot \
+    -storepass $PASS -keypass $PASS -noprompt
 
-keytool -keystore $SSL_FILES_DIR/$USER.client.keystore.jks  -import \
-    -file $SSL_FILES_DIR/$USER-cert-signed -alias $USER \
-    -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore $KS_DIR/$USER.client.keystore.jks  -import \
+    -file $KS_DIR/$USER-cert-signed -alias $USER \
+    -storepass $PASS -keypass $PASS -noprompt
 
-keytool -keystore $SSL_FILES_DIR/kafka.client.truststore.jks -alias CARoot \
-    -import -file $SSL_FILES_DIR/ca-cert -storepass $CLIPASS -keypass $CLIPASS -noprompt
+keytool -keystore $KS_DIR/kafka.client.truststore.jks -alias CARoot \
+    -import -file $CA_DIR/ca-cert -storepass $PASS -keypass $PASS -noprompt
 
 printf "\nImported signed certificate into $USER.client.keystore.jks. Done.\n\n"
