@@ -11,6 +11,7 @@
 8. [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties)
 9. [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication)
 10. [Quick steps for creating an SSL Auth User](#quick-steps-for-creating-an-ssl-auth-user)
+11. [Dockerized SSL Authentication](#dockerized-ssl-authentication)
 
 ## Certificate Authority
 Create a CA
@@ -145,14 +146,14 @@ ssl.keystore.password=clientsecret
 ssl.key.password=clientsecret
 ```
 
-### Console Producer/Consumer with SSL Authentication
+## Console Producer/Consumer with SSL Authentication
 ```bash
 kafka-console-producer.sh --broker-list $KAFKA_SERVER:9093 --topic topic1 --producer.config client_ssl_auth.properties
 
 kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 --consumer.config client_ssl_auth.properties
 ```
 
-### Quick steps for creating an SSL Auth User
+## Quick steps for creating an SSL Auth User
 
 1. User `bob` generates a client keystore.
 
@@ -184,3 +185,19 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 `bob` can now follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication).
 
 
+
+## Dockerized SSL Authentication
+
+- Generate the SSL files needed for SSL Authentication using the script:
+        
+        ./generate_ssl_files.sh
+
+- Create a dockerized zookeeper and kafka container with SSL properties set:
+        
+        docker-compose up -d
+
+- Verify the kafka logs:
+        
+        docker-compose logs kafka
+
+- Follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication) steps using the host machine as the clients for the dockerized kafka server.
