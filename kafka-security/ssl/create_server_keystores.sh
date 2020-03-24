@@ -3,18 +3,20 @@
 CA_DIR="/tmp/ca"
 KS_DIR="/tmp/server_keystores"
 PASS="serversecret"
-KAFKA_SERVER="localhost"
+KAFKA_SERVER="kafka"
 
+rm -rf $KS_DIR
 mkdir -p $KS_DIR
 
 printf "\nCreating SSL Auth Kafka Server KeyStores\n\n"
 
 ## Kafka Broker KeyStore
 keytool  -genkey -keystore $KS_DIR/kafka.server.keystore.jks \
-  -dname "CN=$KAFKA_SERVER" -validity 365 \
+  -dname "CN=$KAFKA_SERVER" -alias $KAFKA_SERVER -validity 365 \
   -storepass $SRVPASS -keypass $SRVPASS -keyalg RSA -storetype pkcs12
 
-keytool -keystore $KS_DIR/kafka.server.keystore.jks -certreq -file $KS_DIR/broker-csr \
+keytool -keystore $KS_DIR/kafka.server.keystore.jks -certreq \
+  -alias $KAFKA_SERVER -file $KS_DIR/broker-csr \
   -storepass $SRVPASS -keypass $SRVPASS
 
 openssl x509 -req -CA $CA_DIR/ca-cert -CAkey $CA_DIR/ca-key \

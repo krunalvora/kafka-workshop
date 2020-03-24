@@ -5,6 +5,7 @@ CA_DIR="/tmp/ca"
 KS_DIR="/tmp/client_keystores"
 PASS="clientsecret"
 
+rm -rf $KS_DIR
 mkdir -p $KS_DIR
 
 printf "\nCreating SSL Auth Client KeyStores for User: $USER\n\n"
@@ -16,9 +17,10 @@ keytool -keystore $KS_DIR/$USER.client.keystore.jks -certreq \
     -file $KS_DIR/$USER-csr -alias $USER -storepass $PASS -keypass $PASS
 
 # Done by CA
+export SRVPASS=serversecret
 openssl x509 -req -CA $CA_DIR/ca-cert -CAkey $CA_DIR/ca-key \
     -in $KS_DIR/$USER-csr -out $KS_DIR/$USER-cert-signed -days 365 \
-    -CAcreateserial -passin pass:$PASS
+    -CAcreateserial -passin pass:$SRVPASS
 
 keytool -keystore $KS_DIR/$USER.client.keystore.jks  -import \
     -file $CA_DIR/ca-cert -alias CARoot \

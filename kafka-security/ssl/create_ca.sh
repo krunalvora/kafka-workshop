@@ -1,6 +1,8 @@
 #!/bin/bash
 
 CA_DIR="/tmp/ca"
+
+rm -rf $CA_DIR
 mkdir $CA_DIR
 
 printf "\nCreating Certificate Authority for SSL\n\n"
