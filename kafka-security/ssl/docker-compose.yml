@@ -36,6 +36,7 @@ services:
       ## Set this to true if ACLs are not needed
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "false"
 
+      ## Ignore if ACLs are not needed
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
       KAFKA_SUPER_USERS: "User:CN=localhost;User:CN=kafka"
       ## KAFKA_SSL_PRINCIPAL_MAPPING_RULEs: 'RULE:^CN=(.*?)/$1/L'
