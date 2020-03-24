@@ -3,7 +3,7 @@
 CA_DIR="/tmp/ca"
 KS_DIR="/tmp/server_keystores"
 PASS="serversecret"
-KAFKA_SERVER="kafka"
+KAFKA_SERVER="localhost"
 
 rm -rf $KS_DIR
 mkdir -p $KS_DIR
