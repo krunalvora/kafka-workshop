@@ -33,6 +33,6 @@ keytool -keystore $KS_DIR/kafka.server.keystore.jks  -import -file $KS_DIR/broke
 keytool -keystore $KS_DIR/kafka.server.truststore.jks -alias CARoot \
   -import -file $CA_DIR/ca-cert -storepass $SRVPASS -keypass $SRVPASS -noprompt
 
-printf "\nImported signed certificate into kafka.server.keystore.jks. Done.\n\n"
+printf "\nImported signed certificate into $KS_DIR/kafka.server.keystore.jks. Done.\n\n"
 printf "Copy the files kafka.server.keystore.jks and kafka.server.truststore.jks over to the Kafka Server.\n\n"
 
