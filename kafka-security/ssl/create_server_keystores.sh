@@ -10,6 +10,7 @@ mkdir -p $KS_DIR
 printf "\nCreating SSL Auth Kafka Server KeyStores\n\n"
 
 ## Kafka Broker KeyStore
+
 keytool  -genkey -keystore $KS_DIR/kafka.server.keystore.jks \
   -dname "CN=$KAFKA_SERVER" -validity 365 \
   -storepass $SRVPASS -keypass $SRVPASS -keyalg RSA -storetype pkcs12
