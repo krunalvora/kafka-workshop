@@ -29,7 +29,7 @@ export SRVPASS=serversecret
 
 ### Create a Kafka Server keystore
 ```bash
-keytool  -genkey -keystore kafka.server.keystore.jks -validity 365 -storepass $SRVPASS -keypass $SRVPASS -dname "CN=$KAFKA_SERVER" -storetype pkcs12 -keyalg RSA
+keytool -genkey -keystore kafka.server.keystore.jks -dname "CN=$KAFKA_SERVER" -alias "$KAFKA_SERVER" -validity 365 -storepass $SRVPASS -keypass $SRVPASS -storetype pkcs12 -keyalg RSA
 
 # kafka.server.keystore.jks -> Kafka Server keystore file
 ```
@@ -41,7 +41,7 @@ keytool -list -v -keystore kafka.server.keystore.jks
 
 ### Get signing request out from server keystore
 ```bash
-keytool -keystore kafka.server.keystore.jks -certreq -file broker-csr -storepass $SRVPASS -keypass $SRVPASS
+keytool -keystore kafka.server.keystore.jks -certreq -file broker-csr -alias "$KAFKA_SERVER" -storepass $SRVPASS -keypass $SRVPASS
 
 # broker-csr -> CSR generated
 ```
