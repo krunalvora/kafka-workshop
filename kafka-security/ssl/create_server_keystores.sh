@@ -8,6 +8,7 @@ mkdir -p $SERVER_KS_DIR
 printf "\nCreating SSL Auth Kafka Server KeyStores\n\n"
 
 ## Kafka Broker KeyStore
+## TODO Adding an alias in the first two commands below causes failure in SSL Handshake.
 keytool  -genkey -keystore $SERVER_KS_DIR/kafka.server.keystore.jks \
   -dname "CN=$KAFKA_SERVER" -validity 365 \
   -storepass $SRVPASS -keypass $SRVPASS -keyalg RSA -storetype pkcs12
