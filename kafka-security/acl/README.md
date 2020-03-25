@@ -39,6 +39,9 @@ Users identified by the Kafka authentication mechanism serve as the principals i
 
 > Principal for SASL/Kerberos -> kerberos principal of the user 
 
+[Quick steps for creating a SASL/OAUTHBEARER Application](https://github.com/krunalvora/apachekafka101/tree/master/kafka-security/kerberos#quick-steps-for-creating-a-sasloauthbearer-application) for SASL/OAUTHBEARER Authentication
+
+> Principal for SASL/OAUTHBEARER -> OAuth2 Application Client ID
 
 ## ACL commands
 ### List Topic ACL
