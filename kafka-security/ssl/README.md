@@ -200,4 +200,14 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
         
         docker-compose logs kafka
 
-- Follow [Console Producer/Consumer with SSL Authentication](#console-producerconsumer-with-ssl-authentication) steps using the host machine as the clients for the dockerized kafka server.
+- Try to produce messages through the console producer on localhost:
+        
+        kafka-console-producer.sh --broker-list localhost:9093 --topic topic1 --producer.config client_ssl_auth.properties
+
+> Exception `org.apache.kafka.common.errors.TopicAuthorizationException: Not authorized to access topics: [topic1]` expected.        
+
+- Add `User:CN=Bob` to allow write to topic `topic1`:
+
+        dc exec kafka kafka-acls.sh --authorizer-properties zookeeper.connect=zookeeper:2181 --add --allow-principal "User:CN=bob" --operation Write --topic topic1
+
+- Trying to write to `topic1` should now work fine with the correct ACLs.
