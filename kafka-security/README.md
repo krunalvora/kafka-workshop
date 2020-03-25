@@ -12,18 +12,12 @@ Broadly, kafka security gets classified into 3 categories:
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [SSL authentication](https://github.com/krunalvora/apachekafka101/tree/master/kafka-security/ssl)
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SASL:
-  
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-  SASL/PLAIN: Passwords hardcoded in the broker
-  
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  SASL/SCRAM: Passwords in zookeeper
-  
+    
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   [SASL/GSSAPI Kerberos](https://github.com/krunalvora/apachekafka101/tree/master/kafka-security/kerberos)
   
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  SASL/OAUTHBEARER: Leverage OAuth 2.0
+  [SASL/OAUTHBEARER: Leverage OAuth 2.0](https://github.com/krunalvora/apachekafka101/tree/master/kafka-security/oauthbearer)
 
 ## Authorization
 
