@@ -25,11 +25,11 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "topic1:1:1,topic2:1:1"
 
-      KAFKA_SSL_KEYSTORE_LOCATION: /tmp/server_keystores/kafka.server.keystore.jks
+      KAFKA_SSL_KEYSTORE_LOCATION: /tmp/kafka/server_keystores/kafka.server.keystore.jks
       KAFKA_SSL_KEYSTORE_PASSWORD: serversecret
       KAFKA_SSL_KEY_PASSWORD: serversecret
       KAFKA_SSL_TRUSTSTORE_PASSWORD: serversecret
-      KAFKA_SSL_TRUSTSTORE_LOCATION: /tmp/server_keystores/kafka.server.truststore.jks
+      KAFKA_SSL_TRUSTSTORE_LOCATION: /tmp/kafka/server_keystores/kafka.server.truststore.jks
       KAFKA_SSL_CLIENT_AUTH: required
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
 
@@ -43,5 +43,5 @@ services:
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/server_keystores:/tmp/server_keystores
+      - /tmp/kafka/server_keystores:/tmp/kafka/server_keystores
   
