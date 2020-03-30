@@ -23,8 +23,11 @@ openssl req -new -newkey rsa:4096 -days 365 -x509 -subj "/CN=Kafka-Security-CA" 
 ```
 
 ## Kafka Server KeyStore
-Export a server password for ease of use
+
 ```bash
+export KAFKA_SERVER=localhost
+
+# Export a server password for ease of use
 export SRVPASS=serversecret
 ```
 
@@ -79,10 +82,10 @@ keytool -keystore kafka.server.truststore.jks -alias CARoot -import -file ca-cer
 ```properties
 listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093
 advertised.listeners=PLAINTEXT://localhost:9092,SSL://localhost:9093
-ssl.keystore.location=<path_to_ssl_files_dir>/kafka.server.keystore.jks
+ssl.keystore.location=/tmp/kafka/server_keystores/kafka.server.keystore.jks
 ssl.keystore.password=serversecret
 ssl.key.password=serversecret
-ssl.truststore.location=<path_to_ssl_files_dir>/kafka.server.truststore.jks
+ssl.truststore.location=/tmp/kafka/server_keystores/kafka.server.truststore.jks
 ssl.truststore.password=serversecret
 
 ssl.client.auth=required
@@ -105,7 +108,7 @@ keytool -keystore kafka.client.truststore.jks -alias CARoot -import -file ca-cer
 `client.properties` 
 ```properties
 security.protocol=SSL
-ssl.truststore.location=<path_to_ssl_files_dir>/kafka.client.truststore.jks
+ssl.truststore.location=/tmp/kafka/client_keystores/kafka.client.truststore.jks
 ssl.truststore.password=clientsecret
 ```
 
@@ -136,21 +139,21 @@ keytool -keystore <user>.client.keystore.jks  -import -file <user>-cert-signed -
 ```
 
 ## Kafka Client SSL Authentication Properties
-`client_ssl_auth.properties` 
+`ssl.client.properties` 
 ```properties
 security.protocol=SSL
-ssl.truststore.location=<path_to_ssl_files_dir>/<user>.client.truststore.jks
+ssl.truststore.location=/tmp/kafka/client_keystores/<user>.client.truststore.jks
 ssl.truststore.password=clientsecret
-ssl.keystore.location=<path_to_ssl_files_dir>/kafka.client.keystore.jks
+ssl.keystore.location=/tmp/kafka/client_keystores/kafka.client.keystore.jks
 ssl.keystore.password=clientsecret
 ssl.key.password=clientsecret
 ```
 
 ## Console Producer/Consumer with SSL Authentication
 ```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9093 --topic topic1 --producer.config client_ssl_auth.properties
+kafka-console-producer.sh --broker-list localhost:9093 --topic topic1 --producer.config /tmp/kafka/ssl.client.properties
 
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 --consumer.config client_ssl_auth.properties
+kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic topic1 --consumer.config /tmp/kafka/ssl.client.properties
 ```
 
 ## Quick steps for creating an SSL Auth User
@@ -178,7 +181,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 5. `bob` requests the Kafka Ops to add the principal `User:bob` to add Read/Write operation for any topic/group/cluster ACLs.
 
-6. `bob` defines a `client_ssl_auth.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
+6. `bob` defines a `ssl.client.properties` file as described in section [Kafka Client SSL Authentication Properties](#kafka-client-ssl-authentication-properties).
 
 > `./create_client_keystores.sh bob` automates the above steps for local development purposes.
 
@@ -202,7 +205,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9093 --topic topic1 -
 
 - Try to produce messages through the console producer on localhost:
         
-        kafka-console-producer.sh --broker-list localhost:9093 --topic topic1 --producer.config client_ssl_auth.properties
+        kafka-console-producer.sh --broker-list localhost:9093 --topic topic1 --producer.config ssl.client.properties
 
 > Exception `org.apache.kafka.common.errors.TopicAuthorizationException: Not authorized to access topics: [topic1]` expected.        
 
