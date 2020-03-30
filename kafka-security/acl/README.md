@@ -15,7 +15,7 @@
 
 ```properties
 authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
-super.users=User:admin;User:kafka
+super.users=User:admin;User:kafka,User:localhost
 allow.everyone.if.no.acl.found=false
 security.inter.broker.protocol=SSL
 
