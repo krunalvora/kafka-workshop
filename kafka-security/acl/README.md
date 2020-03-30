@@ -25,7 +25,7 @@ ssl.principal.mapping.rules=RULE:^CN=(.*?)/$1/L
 > The rule in `ssl.principal.mapping.rules` extracts the user identity out of the SSL username. For example, `"CN=kafka"` ends up with user `kafka`. For more details, refer [here](https://kafka.apache.org/documentation/#security_authz_ssl).
 
 ```bash
-kafka-topics.sh --zookeeper $KAFKA_SERVER:2181 --create --topic acl-test --replication-factor 1 --partitions 1
+kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 1
 ```
 
 ## ACL Principals
@@ -46,35 +46,35 @@ Users identified by the Kafka authentication mechanism serve as the principals i
 ## ACL commands
 ### List Topic ACL
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --list --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --list --topic topic1
 ```
 
 ### Add ClusterAction Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --add --allow-principal "User:admin" --cluster --operation ClusterAction
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal "User:admin" --cluster --operation ClusterAction
 ```
 
 ### Add Read Topic Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 add --allow-principal "User:reader" --allow-principal "User:writer" --operation Read --group=* --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 add --allow-principal "User:bob" --allow-principal "User:writer" --operation Read --group=* --topic topic1
 ```
 
 ### Add Write Topic Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --add --allow-principal "User:writer" --operation Write --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal "User:bob" --operation Write --topic topic1
 ```
 
 ### Remove Topic Access 
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=$ZOO_SERVER:2181 --remove --allow-principal "User:reader" --operation Read --topic acl-test
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --remove --allow-principal "User:bob" --operation Read --topic topic1
 ```
 
 ## Debugging Authorization Issues
 
-Log file:  `<KAFKA_INSTALLATION_DIR>/kafka/logs/kafka-authorizer.log`
+Log file:  `/usr/local/kafka/logs/kafka-authorizer.log`
 Default log level is INFO, only DENIED logs are available.
 
-To enable success logs, change `<KAFKA_INSTALLATION_DIR>/kafka/conf/log4j.properties`, set
+To enable success logs, change `/usr/local/kafka/conf/log4j.properties`, set
 ```properties
 log4j.logger.kafka.authorizer.logger=DEBUG
 ```
