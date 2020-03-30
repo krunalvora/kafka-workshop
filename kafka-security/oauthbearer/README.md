@@ -107,7 +107,7 @@ Verify the kafka logs for `OAuthAuthenticateLoginCallbackHandler` and `OAuthAuth
 
 ## Kafka Client SASL/OAUTHBEARER properties
 
-`client_oauthbearer.properties`
+`oauth.client.properties`
 
 ```properties
 security.protocol=SASL_PLAINTEXT
