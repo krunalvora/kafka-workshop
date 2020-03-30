@@ -1,7 +1,6 @@
 #!/bin/bash
 
-CA_DIR="/tmp/ca"
-
+source constants.sh
 rm -rf $CA_DIR
 mkdir $CA_DIR
 
