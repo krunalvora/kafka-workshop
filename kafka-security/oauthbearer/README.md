@@ -62,7 +62,7 @@ OAuthAuthenticateValidatorCallbackHandler is used by clients and brokers to make
 
 
 ## Kafka Server JAAS configuration
-`kafka_server_jaas.conf`
+`oauth.kafka_server_jaas.conf`
 ```
 KafkaServer {
   org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required
@@ -72,7 +72,7 @@ KafkaServer {
 
 
 ## Kafka Server SASL/OAUTHBEARER properties
-`server.properties`
+`oauth.server.properties`
 
         ##########SECURITY using OAUTHBEARER authentication ###############
         sasl.enabled.mechanisms=OAUTHBEARER
@@ -93,17 +93,21 @@ KafkaServer {
 ## Kafka Server KAFKA_OPTS
 
 ```bash
-  export KAFKA_OPTS="-Djava.security.auth.login.config=<kafka-binary-dir>/config/kafka_server_jaas.conf -DOAUTH_WITH_SSL=true -DOAUTH_LOGIN_SERVER=<OAuth-server-url> -DOAUTH_LOGIN_ENDPOINT=/oauth2/default/v1/token -DOAUTH_LOGIN_GRANT_TYPE=client_credentials -DOAUTH_LOGIN_SCOPE=kafka -DOAUTH_INTROSPECT_SERVER=<OAuth-server-url> -DOAUTH_INTROSPECT_ENDPOINT=/oauth2/default/v1/introspect -DOAUTH_AUTHORIZATION=Basic%20<encoded-clientId:clientsecret> -DOAUTH_INTROSPECT_AUTHORIZATION=Basic%20<encoded-clientId:clientsecret>"
+export OAUTH_SERVER_URL=<oauth-server-url>
+
+export OAUTH_AUTHORIZATION=<base64 encoded clientId:clientSecret>
+
+export KAFKA_OPTS="-Djava.security.auth.login.config=/usr/local/kafka/config/oauth.kafka_server_jaas.conf -DOAUTH_WITH_SSL=true -DOAUTH_LOGIN_SERVER=$OAUTH_SERVER_URL -DOAUTH_LOGIN_ENDPOINT=/oauth2/default/v1/token -DOAUTH_LOGIN_GRANT_TYPE=client_credentials -DOAUTH_LOGIN_SCOPE=kafka -DOAUTH_INTROSPECT_SERVER=$OAUTH_SERVER_URL -DOAUTH_INTROSPECT_ENDPOINT=/oauth2/default/v1/introspect -DOAUTH_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION -DOAUTH_INTROSPECT_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION"
 ```
 
-Start the Zookeeper and Kafka Servers.
+Start kafka server with `oauth.server.properties`.
 
 Verify the kafka logs for `OAuthAuthenticateLoginCallbackHandler` and `OAuthAuthenticateValidatorCallbackHandler`.
 
 
 ## Kafka Client SASL/OAUTHBEARER properties
 
-`client_oauthbearer.properties`
+`oauth.client.properties`
 
 ```properties
 security.protocol=SASL_PLAINTEXT
@@ -114,9 +118,9 @@ sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginMo
 
 ### Console Producer/Consumer with SASL/OAUTHBEARER
 ```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config client_kerberos.properties
+kafka-console-producer.sh --broker-list localhost:9094 --topic topic1 --producer.config oauth.client.properties
 
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config client_kerberos.properties
+kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --consumer.config oauth.client.properties
 ```
 
 
