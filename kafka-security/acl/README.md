@@ -56,7 +56,7 @@ kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add --a
 
 ### Add Read Topic Access
 ```bash
-kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 add --allow-principal "User:bob" --allow-principal "User:writer" --operation Read --group=* --topic topic1
+kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal "User:bob" --allow-principal "User:alice" --operation Read --group=* --topic topic1
 ```
 
 ### Add Write Topic Access
