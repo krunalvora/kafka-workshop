@@ -1,26 +1,27 @@
 # SASL/Kerberos Authentication
 
 ## Table of Contents
-1. [Install Kerberos Server](#install-kerberos-server)
-2. [Kerberos Configuration](#kerberos-configuration)
-    1. [kdc.conf](#kdcconf)
-    2. [kadm5.acl](#kadm5acl)
-    3. [krb5.conf](#krb5.conf)
-3. [Kerberos Database](#kerberos-database)
-4. [Kerberos Admin Principal](#kerberos-admin-principal)
-5. [Start Kerberos Services](#start-kerberos-services)
-6. [Kerberos User Principals](#kerberos-user-principals)
-7. [Kerberos Keytabs](#kerberos-keytabs)
-    1. [List Keytabs](#list-keytabs)
-8. [Install Kerberos Client Tools](#install-kerberos-client-tools)
-9. [Kafka Server JAAS Configuration](#kafka-server-jaas-configuration)
-10. [Kafka Server SASL/Kerberos Configuration](#kafka-server-saslkerberos-configuration)
-11. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
-12. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
-13. [Kafka Client Kerberos Tickets](#kafka-client-kerberos-tickets)
+1. [Setup Kerberos Server](#setup-kerberos-server)
+	1. [Install Kerberos Server](#install-kerberos-server)
+	2. [Kerberos Configuration](#kerberos-configuration)
+	3. [Kerberos Database](#kerberos-database)
+	4. [Kerberos Admin Principal](#kerberos-admin-principal)
+	5. [Start Kerberos Services](#start-kerberos-services)
+2. [Kerberos Principals and Keytabs](#kerberos-principals-and-keytabs)
+	1. [Kerberos User Principals](#kerberos-user-principals)
+	2. [Kerberos Keytabs](#kerberos-keytabs)
+8. [Kerberos Client Tools](#kerberos-client-tools)
+9. [Kafka Server Configuration](#kafka-server-configuration)
+	1. [Kafka Server JAAS Configuration](#kafka-server-jaas-configuration)
+	2. [Kafka Server SASL/Kerberos Configuration](#kafka-server-saslkerberos-configuration)
+10. [Kafka Client Configuration](#kafka-client-configuration)
+	1. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
+	2. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
 15. [Quick steps for creating a SASL/Kerberos User](#quick-steps-for-creating-a-saslkerberos-user)
 
+
+## Setup Kerberos Server
 
 ### Install Kerberos Server
 ```bash
@@ -94,6 +95,8 @@ sudo systemctl restart krb5kdc
 sudo systemctl restart kadmin
 ```
 
+## Kerberos Principals and Keytabs
+
 ### Kerberos User Principals
 
 > kadmin.local -> from within the kerberos server
@@ -115,6 +118,12 @@ Create kafka principal for every single broker in the kafka cluster
 sudo kadmin.local -q "add_principal -randkey kafka/<KAFKA_BROKER_PUBLIC_DNS>@KAFKA.SECURE"
 ```
 
+#### List Principals
+
+```bash
+sudo kadmin.local list_principals
+```
+
 ### Kerberos Keytabs
 ```bash
 sudo kadmin.local -q "xst -kt /tmp/reader.user.keytab reader@KAFKA.SECURE"
@@ -127,11 +136,6 @@ sudo kadmin.local -q "xst -kt /tmp/kafka.service.keytab kafka/<KAFKA_BROKER_PUBL
 ```
 
 > In the real world, keytab files would be provided to each user which is supposed to be secured by the user as her identity. It later on can be used for authorization.
-
-#### List Keytabs
-```bash
-sudo klist -kt /tmp/writer.user.keytab
-```
 
 ```bash
 sudo chmod a+r /tmp/*.keytab
@@ -146,7 +150,7 @@ chmod 600 /tmp/*.keytab
 ```
 
 
-### Install Kerberos Client Tools 
+## Kerberos Client Tools 
 
 Install package `krb5-user` on local laptop and kafka server
 ```bash
@@ -173,6 +177,7 @@ Define `/etc/krb5.conf`:
 
 ```
 
+## Kerberos Server Configuration
 
 ### Kafka Server JAAS Configuration
 `kafka_server_jaas.conf`
@@ -209,17 +214,11 @@ ExecStop=/home/ubuntu/kafka/bin/kafka-server-stop.sh
 WantedBy=multi-user.target
 ```
 
-```bash
-sudo systemctl daemon-reload
-
-sudo systemctl restart kafka
-```
 
 ### Kafka Server SASL/Kerberos Configuration
 ```properties
-listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093,SASL_SSL://0.0.0.0:9094
-advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9093,SASL_SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
-
+listeners=PLAINTEXT://0.0.0.0:9092,,SASL_PLAINTEXT://0.0.0.0:9094
+advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SASL_PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
 sasl.enabled.mechanisms=GSSAPI
 sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
 ```
@@ -227,18 +226,11 @@ sasl.kerberos.service.name=kafka   # needs to match the kafka principal from ker
 Restart Kafka Server.
 
 
+## Kerberos Client Configuration
+
 ### Kafka Client JAAS Configuration
 
-`client_jaas.conf`
-```
-KafkaClient {
-  com.sun.security.auth.module.Krb5LoginModule required
-  useTicketCache=true;
-};
-
-```
-
-JAAS file to skip doing a `kinit` before starting your client
+`reader.kafka_client_jaas.conf`
 ```
 KafkaClient {
     com.sun.security.auth.module.Krb5LoginModule required
@@ -249,9 +241,31 @@ KafkaClient {
 };
 ```
 
+```bash
+export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/reader.kafka_client_jaas.conf"
+```
+
+
+There is also an option to use the ticket from the Ticket Cache instead of mentioning the keytab and principal as shown above. It is used for development purposes mostly and is not recommended otherwise.
+```
+KafkaClient {
+  com.sun.security.auth.module.Krb5LoginModule required
+  useTicketCache=true;
+};
+
+```
+> This client jaas conf would need a ticket to be put into the Ticket Cache as shown below.
+
+```bash
+kdestroy          #Empty the cache
+
+kinit -kt /tmp/reader.user.keytab reader
+
+klist             #Ticket cache
+```
 
 ### Kafka Client SASL/Kerberos Properties
-`client_kerberos.properties`
+`kerberos.client.properties`
 ```properties
 security.protocol=SASL_SSL
 sasl.kerberos.service.name=kafka
@@ -260,28 +274,14 @@ ssl.truststore.password=clientsecret
 
 ```
 
-### Kafka Client Kerberos Tickets
+## Console Producer/Consumer with SASL/Kerberos
 ```bash
-export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/client_jaas.conf"
+kafka-console-producer.sh --broker-list localhost:9094 --topic topic1 --producer.config kerberos.client.properties
 
-kdestroy          #Empty the cache
-
-kinit -kt /tmp/writer.user.keytab writer
-
-klist             #Ticket cache
-
+kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --consumer.config kerberos.client.properties
 ```
 
-> `kinit` is not needed if the JAAS config sets the `keyTab` property instead of using TicketCache.
-
-### Console Producer/Consumer with SASL/Kerberos
-```bash
-kafka-console-producer.sh --broker-list $KAFKA_SERVER:9094 --topic topic1 --producer.config client_kerberos.properties
-
-kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 --consumer.config client_kerberos.properties
-```
-
-### Quick steps for creating a SASL/Kerberos User
+## Quick steps for creating a SASL/Kerberos User
 
 1. User `alice` requests the Kerberos Service to create a new principal for her and provide a keytab.
 
@@ -292,7 +292,7 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
         sudo kadmin.local -q "xst -kt /tmp/alice.user.keytab alice@KAFKA.SECURE"
         sudo chmod a+r /tmp/alice.user.keytab
 
-3. `alice` defines a `client_jaas.conf` file.
+3. `alice` defines a `alice.kafka_client_jaas.conf` file.
 
         KafkaClient {
             com.sun.security.auth.module.Krb5LoginModule required
@@ -304,27 +304,14 @@ kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER:9094 --topic topic1 -
 
 4. `alice` sets the environment variable KAFKA_OPTS to provide the client JAAS config.
 
-        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/client_jaas.conf"
+        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/alice.kafka_client_jaas.conf"
 
 5. `alice` requests the Kafka Ops to add the principal `User:alice` to add Read/Write operation for any topic/group/cluster ACLs.
 
-6. `alice` defines a `client_kerberos.properties` file as described in section [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties).
+6. `alice` defines a `kerberos.client.properties` file as described in section [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties).
 
 
 `alice` can now follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
