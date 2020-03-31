@@ -217,9 +217,8 @@ WantedBy=multi-user.target
 
 ### Kafka Server SASL/Kerberos Configuration
 ```properties
-listeners=PLAINTEXT://0.0.0.0:9092,SSL://0.0.0.0:9093,SASL_SSL://0.0.0.0:9094
-advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9093,SASL_SSL://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
-
+listeners=PLAINTEXT://0.0.0.0:9092,,SASL_PLAINTEXT://0.0.0.0:9094
+advertised.listeners=PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9092,SASL_PLAINTEXT://<<KAFKA-SERVER-PUBLIC-DNS>>:9094
 sasl.enabled.mechanisms=GSSAPI
 sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
 ```
