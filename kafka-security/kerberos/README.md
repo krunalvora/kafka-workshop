@@ -241,6 +241,8 @@ KafkaClient {
 };
 ```
 
+> Make sure to have quotes surrounding the `keyTab` and `principal` in the above config. You might face a configuration error otherwise.
+
 ```bash
 export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/reader.kafka_client_jaas.conf"
 ```
@@ -301,6 +303,8 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
             keyTab="/tmp/alice.user.keytab"
             principal="alice@KAFKA.SECURE";
         };
+
+> Make sure to have quotes surrounding the `keyTab` and `principal` in the above config. You might face a configuration error otherwise.
 
 4. `alice` sets the environment variable KAFKA_OPTS to provide the client JAAS config.
 
