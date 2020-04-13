@@ -19,6 +19,7 @@
 	2. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
 15. [Quick steps for creating a SASL/Kerberos User](#quick-steps-for-creating-a-saslkerberos-user)
+16. [Troubleshooting](#troubleshooting)
 
 
 ## Setup Kerberos Server
@@ -316,6 +317,14 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 
 `alice` can now follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
+
+
+## Troubleshooting
+
+1. `JavaLoginException - the client is being asked for a password` on Kafka server restart after Kerberos configuration.
+
+	The kafka server keytab file is either not reachable or does not have the correct permissions.
+	
 
 
 
