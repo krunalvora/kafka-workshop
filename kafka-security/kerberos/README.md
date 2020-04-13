@@ -223,6 +223,8 @@ sasl.enabled.mechanisms=GSSAPI
 sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
 ```
 
+> We are using `SASL_PLAINTEXT` in this example. The other option is to use `SASL_SSL` which would need SSL encryption to be set up beforehand.
+
 Restart Kafka Server.
 
 
@@ -269,10 +271,8 @@ klist             #Ticket cache
 ### Kafka Client SASL/Kerberos Properties
 `kerberos.client.properties`
 ```properties
-security.protocol=SASL_SSL
+security.protocol=SASL_PLAINTEXT
 sasl.kerberos.service.name=kafka
-ssl.truststore.location=/home/ubuntu/ssl/kafka.client.truststore.jks
-ssl.truststore.password=clientsecret
 
 ```
 
