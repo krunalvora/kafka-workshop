@@ -74,21 +74,35 @@ KafkaServer {
 ## Kafka Server SASL/OAUTHBEARER properties
 `oauth.server.properties`
 
-        ##########SECURITY using OAUTHBEARER authentication ###############
-        sasl.enabled.mechanisms=OAUTHBEARER
-        sasl.mechanism.inter.broker.protocol=OAUTHBEARER
-        security.inter.broker.protocol=SASL_PLAINTEXT
-        listeners=SASL_PLAINTEXT://localhost:9094
-        advertised.listeners=SASL_PLAINTEXT://localhost:9094
-        #Authorizer for ACL
-        authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
-        super.users=User:<brokerapp-clientId>;
-        ################ OAuth Classes #####################
-        sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required OAUTH_LOGIN_SERVER=<auth-server-url> OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' OAUTH_LOGIN_GRANT_TYPE=client_credentials OAUTH_LOGIN_SCOPE=broker.kafka OAUTH_AUTHORIZATION='Basic <encoded-clientId:clientsecret>' OAUTH_INTROSPECT_SERVER=<auth-server-url> OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-clientId:clientsecret>';
-        listener.name.sasl_plaintext.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
-        listener.name.sasl_plaintext.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
-        ########## SECURITY using OAUTHBEARER authentication ###############
+```properties
 
+listeners=PLAINTEXT://0.0.0.0:9092,SASL_PLAINTEXT://0.0.0.0:9094,SASL_SSL://0.0.0.0:9095
+advertised.listeners=PLAINTEXT://localhost:9092,SASL_PLAINTEXT://localhost:9094,SASL_SSL://localhost:9095
+security.inter.broker.protocol=SASL_PLAINTEXT # or SASL_SSL for production
+
+sasl.enabled.mechanisms=OAUTHBEARER
+sasl.mechanism.inter.broker.protocol=OAUTHBEARER
+
+sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+        OAUTH_LOGIN_SERVER="<auth-server-url>" \
+        OAUTH_LOGIN_ENDPOINT="/oauth2/default/v1/token" \
+        OAUTH_LOGIN_GRANT_TYPE="client_credentials" \
+        OAUTH_LOGIN_SCOPE="broker.kafka" \
+        OAUTH_AUTHORIZATION="Basic <encoded-clientId:clientsecret>" \
+        OAUTH_INTROSPECT_SERVER="<auth-server-url>" \
+        OAUTH_INTROSPECT_ENDPOINT="/oauth2/default/v1/introspect" \
+        OAUTH_INTROSPECT_AUTHORIZATION="Basic <encoded-clientId:clientsecret>";
+
+listener.name.sasl_plaintext.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
+listener.name.sasl_plaintext.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
+listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
+listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
+
+# Authorizer for ACL
+authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+super.users=User:<brokerapp-clientId>;
+        
+```
 
 ## Kafka Server KAFKA_OPTS
 
