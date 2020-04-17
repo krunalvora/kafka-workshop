@@ -141,15 +141,24 @@ Verify the kafka logs for `OAuthAuthenticateLoginCallbackHandler` and `OAuthAuth
 `oauth.client.properties`
 
 ```properties
-security.protocol=SASL_PLAINTEXT
+security.protocol=SASL_PLAINTEXT  # or SASL_SSL
 sasl.mechanism=OAUTHBEARER
 sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
-sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required OAUTH_LOGIN_SERVER=<OAuth-server-url> OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' OAUTH_LOGIN_GRANT_TYPE=client_credentials OAUTH_LOGIN_SCOPE=kafka OAUTH_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>' OAUTH_INTROSPECT_SERVER=<OAuth-server-url> OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>';
+sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+        OAUTH_LOGIN_SERVER=<OAuth-server-url> \
+        OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' \
+        OAUTH_LOGIN_GRANT_TYPE=client_credentials \
+        OAUTH_LOGIN_SCOPE=kafka \
+        OAUTH_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>' \
+        OAUTH_INTROSPECT_SERVER=<OAuth-server-url> \
+        OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' \
+        OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>';
 
-
+##################### OPTIONAL: Needed only with SASL_SSL ############################
 ssl.truststore.location=/tmp/kafka/client_keystores/kafka.client.truststore.jks
 ssl.truststore.password=clientsecret
 ssl.endpoint.identification.algorithm=
+######################################################################################
 ```
 
 ### Console Producer/Consumer with SASL/OAUTHBEARER
@@ -167,10 +176,24 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 2. `login` service user defines a `client_oauthbearer.properties` file.
 
-        security.protocol=SASL_PLAINTEXT
+        security.protocol=SASL_PLAINTEXT  # or SASL_SSL
         sasl.mechanism=OAUTHBEARER
         sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
-        sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required OAUTH_LOGIN_SERVER=<OAuth-server-url> OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' OAUTH_LOGIN_GRANT_TYPE=client_credentials OAUTH_LOGIN_SCOPE=kafka OAUTH_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>' OAUTH_INTROSPECT_SERVER=<OAuth-server-url> OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>';
+        sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+                OAUTH_LOGIN_SERVER=<OAuth-server-url> \
+                OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' \
+                OAUTH_LOGIN_GRANT_TYPE=client_credentials \
+                OAUTH_LOGIN_SCOPE=kafka \
+                OAUTH_AUTHORIZATION='Basic <encoded-login-clientId:clientsecret>' \
+                OAUTH_INTROSPECT_SERVER=<OAuth-server-url> \
+                OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' \
+                OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-login-clientId:clientsecret>';
+
+        ##################### OPTIONAL: Needed only with SASL_SSL ############################
+        ssl.truststore.location=/tmp/kafka/client_keystores/kafka.client.truststore.jks
+        ssl.truststore.password=clientsecret
+        ssl.endpoint.identification.algorithm=
+        ######################################################################################
 
 
 3. `login` service member requests the Kafka Ops to add the principal `User:<client-id>` to add Read/Write operation for any topic/group/cluster ACLs.
