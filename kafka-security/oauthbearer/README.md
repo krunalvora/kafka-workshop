@@ -154,4 +154,6 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
         listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
         listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
 
-2. 
+2. `org.apache.kafka.common.network.InvalidReceiveException: Invalid receive (size = 369296128 larger than 524288)` while trying to produce messages.
+
+        This is probably because of a protocol mismatch. Make sure that the client is using the correct protocol for the port it is trying to connect.
