@@ -100,12 +100,12 @@ listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2
 
 ################### OPTIONAL: Needed only if using SASL_SSL #############################
 
- ssl.keystore.location=/tmp/kafka/server_keystores/kafka.server.keystore.jks
- ssl.keystore.password=serversecret
- ssl.key.password=serversecret
- ssl.truststore.location=/tmp/kafka/server_keystores/kafka.server.truststore.jks
- ssl.truststore.password=serversecret
- ssl.endpoint.identification.algorithm=
+ssl.keystore.location=/tmp/kafka/server_keystores/kafka.server.keystore.jks
+ssl.keystore.password=serversecret
+ssl.key.password=serversecret
+ssl.truststore.location=/tmp/kafka/server_keystores/kafka.server.truststore.jks
+ssl.truststore.password=serversecret
+ssl.endpoint.identification.algorithm=
 
 #########################################################################################
 
