@@ -118,11 +118,17 @@ super.users=User:<brokerapp-clientId>;
 ## Kafka Server KAFKA_OPTS
 
 ```bash
-export OAUTH_SERVER_URL=<oauth-server-url>
 
-export OAUTH_AUTHORIZATION=<base64 encoded clientId:clientSecret>
-
-export KAFKA_OPTS="-Djava.security.auth.login.config=/usr/local/kafka/config/oauth.kafka_server_jaas.conf -DOAUTH_WITH_SSL=true -DOAUTH_LOGIN_SERVER=$OAUTH_SERVER_URL -DOAUTH_LOGIN_ENDPOINT=/oauth2/default/v1/token -DOAUTH_LOGIN_GRANT_TYPE=client_credentials -DOAUTH_LOGIN_SCOPE=kafka -DOAUTH_INTROSPECT_SERVER=$OAUTH_SERVER_URL -DOAUTH_INTROSPECT_ENDPOINT=/oauth2/default/v1/introspect -DOAUTH_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION -DOAUTH_INTROSPECT_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION"
+export KAFKA_OPTS="-Djava.security.auth.login.config=/usr/local/kafka/config/oauth.kafka_server_jaas.conf \
+        -DOAUTH_WITH_SSL=true \
+        -DOAUTH_LOGIN_SERVER=$OAUTH_SERVER_URL \
+        -DOAUTH_LOGIN_ENDPOINT=/oauth2/default/v1/token \
+        -DOAUTH_LOGIN_GRANT_TYPE=client_credentials \
+        -DOAUTH_LOGIN_SCOPE=kafka \
+        -DOAUTH_INTROSPECT_SERVER=$OAUTH_SERVER_URL \
+        -DOAUTH_INTROSPECT_ENDPOINT=/oauth2/default/v1/introspect \
+        -DOAUTH_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION \
+        -DOAUTH_INTROSPECT_AUTHORIZATION=Basic%20$OAUTH_AUTHORIZATION"
 ```
 
 Start kafka server with `oauth.server.properties`.
