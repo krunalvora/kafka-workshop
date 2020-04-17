@@ -5,7 +5,7 @@
 2. [Kafka OAuth2 JAR](#kafka-oauth2-jar)
 3. [Kafka Server JAAS configuration](#kafka-server-jaas-configuration)
 4. [Kafka Server SASL/OAUTHBEARER properties](#kafka-server-sasloauthbearer-properties)
-5. [Kafka Server KAFKA_OPTS](#kafka-server-kafkaopts)
+5. [Kafka Server KAFKA_OPTS](#kafka-server-kafka-opts)
 6. [Kafka Client SASL/OAUTHBEARER properties](#kafka-client-sasloauthbearer-properties)
 7. [Console Producer/Consumer with SASL/OAUTHBEARER](#console-producerconsumer-with-sasloauthbearer)
 8. [Quick steps for creating a SASL/OAUTHBEARER Application](#quick-steps-for-creating-a-sasloauthbearer-application)
