@@ -145,6 +145,11 @@ security.protocol=SASL_PLAINTEXT
 sasl.mechanism=OAUTHBEARER
 sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
 sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required OAUTH_LOGIN_SERVER=<OAuth-server-url> OAUTH_LOGIN_ENDPOINT='/oauth2/default/v1/token' OAUTH_LOGIN_GRANT_TYPE=client_credentials OAUTH_LOGIN_SCOPE=kafka OAUTH_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>' OAUTH_INTROSPECT_SERVER=<OAuth-server-url> OAUTH_INTROSPECT_ENDPOINT='/oauth2/default/v1/introspect' OAUTH_INTROSPECT_AUTHORIZATION='Basic <encoded-producer-clientId:clientsecret>';
+
+
+ssl.truststore.location=/tmp/kafka/client_keystores/kafka.client.truststore.jks
+ssl.truststore.password=clientsecret
+ssl.endpoint.identification.algorithm=
 ```
 
 ### Console Producer/Consumer with SASL/OAUTHBEARER
