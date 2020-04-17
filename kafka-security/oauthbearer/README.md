@@ -149,10 +149,9 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 1. `ERROR No principal name in JWT claim: sub (org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule)`
         
-        Make sure that the oauth classes are defined in server.properties
+        # Make sure that the oauth classes are defined in server.properties
         
         listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
-        
         listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
 
 2. 
