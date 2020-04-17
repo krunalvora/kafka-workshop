@@ -98,6 +98,17 @@ listener.name.sasl_plaintext.oauthbearer.sasl.server.callback.handler.class=com.
 listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
 listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
 
+################### OPTIONAL: Needed only if using SASL_SSL #############################
+
+ ssl.keystore.location=/tmp/kafka/server_keystores/kafka.server.keystore.jks
+ ssl.keystore.password=serversecret
+ ssl.key.password=serversecret
+ ssl.truststore.location=/tmp/kafka/server_keystores/kafka.server.truststore.jks
+ ssl.truststore.password=serversecret
+ ssl.endpoint.identification.algorithm=
+
+#########################################################################################
+
 # Authorizer for ACL
 authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
 super.users=User:<brokerapp-clientId>;
