@@ -200,7 +200,7 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 
 
-`login` service members can now follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-sasloauthbearer).
+`login` service members can now follow [Console Producer/Consumer with SASL/OAUTHBEARER](#console-producerconsumer-with-sasloauthbearer).
 
 
 
