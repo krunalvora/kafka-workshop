@@ -9,7 +9,7 @@
 6. [Kafka Client SASL/OAUTHBEARER properties](#kafka-client-sasloauthbearer-properties)
 7. [Console Producer/Consumer with SASL/OAUTHBEARER](#console-producerconsumer-with-sasloauthbearer)
 8. [Quick steps for creating a SASL/OAUTHBEARER Application](#quick-steps-for-creating-a-sasloauthbearer-application)
-
+9. [Troubleshooting](#troubleshooting)
 
 For a detailed step-by-step description, this [medium article](https://medium.com/egen/how-to-configure-oauth2-authentication-for-apache-kafka-cluster-using-okta-8c60d4a85b43) does a great job.
 
@@ -145,4 +145,14 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 
 
+## Troubleshooting
 
+1. `ERROR No principal name in JWT claim: sub (org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule)`
+        
+        Make sure that the oauth classes are defined in server.properties
+        
+        listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateLoginCallbackHandler
+        
+        listener.name.sasl_ssl.oauthbearer.sasl.server.callback.handler.class=com.oauth2.security.oauthbearer.OAuthAuthenticateValidatorCallbackHandler
+
+2. 
