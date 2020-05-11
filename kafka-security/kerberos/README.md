@@ -283,35 +283,36 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 ## Quick steps for creating a SASL/Kerberos User
 
-1. User `alice` requests the Kerberos Service to create a new principal for her and provide a keytab.
+1. Service requests Ops to create a new principal for them and provide a keytab.
 
-2. Kerberos Service generates a principal `alice@KAFKA.SECURE` and a keytab `alice.user.keytab` and provides the keytab back to `alice`. 
+2. Ops generates a principal `service@KAFKA.SECURE` and a keytab `service.user.keytab` and provides the keytab back to service. 
 
-        # Done by the kerberos service
-        sudo kadmin.local -q "add_principal -randkey alice@KAFKA.SECURE"
-        sudo kadmin.local -q "xst -kt /tmp/alice.user.keytab alice@KAFKA.SECURE"
-        sudo chmod a+r /tmp/alice.user.keytab
+        # Done by Ops
+        sudo kadmin.local -q "add_principal -randkey service@KAFKA.SECURE"
+        sudo kadmin.local -q "xst -kt /tmp/service.user.keytab service@KAFKA.SECURE"
+        sudo chmod a+r /tmp/service.user.keytab
 
-3. `alice` defines a `alice.kafka_client_jaas.conf` file.
+3. Service defines a `service.kafka_client_jaas.conf` file.
 
         KafkaClient {
             com.sun.security.auth.module.Krb5LoginModule required
             useKeyTab=true
             storeKey=true
-            keyTab="/tmp/alice.user.keytab"
-            principal="alice@KAFKA.SECURE";
+            keyTab="/tmp/service.user.keytab"
+            principal="service@KAFKA.SECURE";
         };
+	
+4. Service defines a `kerberos.client.properties` file
 
-4. `alice` sets the environment variable KAFKA_OPTS to provide the client JAAS config.
+	security.protocol=SASL_PLAINTEXT
+	sasl.kerberos.service.name=kafka	
 
-        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/alice.kafka_client_jaas.conf"
+5. Service sets the environment variable KAFKA_OPTS to provide the client JAAS config.
 
-5. `alice` requests the Kafka Ops to add the principal `User:alice` to add Read/Write operation for any topic/group/cluster ACLs.
+        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/service.kafka_client_jaas.conf"
 
-6. `alice` defines a `kerberos.client.properties` file as described in section [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties).
+6. Service requests Ops to add the principal `User:service` to add Read/Write operation for any topic/group/cluster ACLs.
 
-
-`alice` can now follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
 
 
 
