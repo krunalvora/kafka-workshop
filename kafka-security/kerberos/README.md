@@ -281,7 +281,7 @@ kafka-console-producer.sh --broker-list localhost:9094 --topic topic1 --producer
 kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --consumer.config kerberos.client.properties
 ```
 
-## Quick steps for creating a SASL/Kerberos User
+## Changes on the service side for Kerberos
 
 1. Service requests Ops to create a new principal for them and provide a keytab.
 
@@ -304,8 +304,8 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 	
 4. Service defines a `kerberos.client.properties` file
 
-	security.protocol=SASL_PLAINTEXT
-	sasl.kerberos.service.name=kafka	
+        security.protocol=SASL_PLAINTEXT
+        sasl.kerberos.service.name=kafka	
 
 5. Service sets the environment variable KAFKA_OPTS to provide the client JAAS config.
 
