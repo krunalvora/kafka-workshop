@@ -18,7 +18,7 @@
 	1. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
 	2. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
-15. [Quick steps for creating a SASL/Kerberos User](#quick-steps-for-creating-a-saslkerberos-user)
+15. [Changes on the service side for Kerberos](#changes-on-the-service-side-for-kerberos)
 
 
 ## Setup Kerberos Server
