@@ -18,7 +18,7 @@
 	1. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
 	2. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
-15. [Changes on the service side for Kerberos](#changes-on-the-service-side-for-kerberos)
+15. [Changes on Service side for Kerberos](#changes-on-service-side-for-kerberos)
 
 
 ## Setup Kerberos Server
@@ -281,7 +281,7 @@ kafka-console-producer.sh --broker-list localhost:9094 --topic topic1 --producer
 kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --consumer.config kerberos.client.properties
 ```
 
-## Changes on the service side for Kerberos
+## Changes on Service side for Kerberos
 
 1. Service requests Ops to create a new principal for them and provide a keytab.
 
