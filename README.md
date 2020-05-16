@@ -23,8 +23,21 @@ Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA
 
 # Kafka on Docker
 
-Refer the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/kafka-docker).
-If you want to run Kafka on Docker, skip the next step of `Kafka on Host Machine` and jump to [Create Kafka Topic](#create-kafka-topic). 
+There are several Kafka Docker images available. We are going to use [wurstmeister/kafka-docker](https://github.com/wurstmeister/kafka-docker) image here. 
+
+```bash
+cd kafka-docker
+
+export ADVERTISED_HOST_NAME=`ipconfig getifaddr en0`
+
+# Start zookeeper and 3 kafka containers
+docker-compose up -d
+
+# Stop zookeeper and kafka containers
+docker-compose stop
+```
+
+> If you want to run Kafka on Docker, skip the next step of `Kafka on Host Machine` and jump to [Create Kafka Topic](#create-kafka-topic). 
 
 # Kafka on Host Machine
 ### Installation
