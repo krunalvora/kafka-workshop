@@ -1,3 +1,4 @@
 kafka-security/ssl/ssl_files/
 kafka-security/ssl/ssl_client_stores/
 kafka-security/kerberos/kerberos_keytabs/
+.DS_Store
