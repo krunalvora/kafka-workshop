@@ -37,7 +37,7 @@ docker-compose up -d
 docker-compose stop
 ```
 
-> If you want to run Kafka on Docker, skip the next step of `Kafka on Host Machine` and jump to [Create Kafka Topic](#create-kafka-topic). 
+> Even if run Kafka on Docker, you would still want to follow the steps for [Kafka on Host Machine](#kafka-on-host-machine) if you want to use `kafka-client-producer` and `kafka-client-consumer` that is shipped along with Kafka. 
 
 # Kafka on Host Machine
 ### Installation
