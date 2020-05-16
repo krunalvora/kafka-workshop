@@ -72,13 +72,13 @@ export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 > To stop kafka, `/usr/local/kafka/bin/kafka-server-stop.sh`
 
 
-### Setup Zookeeper and Kafka Systemd Services for Linux
+## Setup Zookeeper and Kafka Systemd Services for Linux
 
 Refer to the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/systemd-services) to setup Systemd services for Kafka and Zookeeper to automate the start/stop commands and make your life easier.
 
 # Create Kafka Topic
 ```bash
-$KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 2
+/usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 2
 ```
 
 # Produce messages to Kafka
