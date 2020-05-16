@@ -16,17 +16,17 @@
 	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
 	2. [ZooNavigator](#zoonavigator)
 
-## Slides
+# Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
 
 > The instructions below are for a linux(optionally mac) OS. You can follow the steps in the Kafka Documentation for other OSs.
 
-## Kafka on Docker
+# Kafka on Docker
 
 Refer the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/kafka-docker).
 If you want to run Kafka on Docker, skip the next step of `Kafka on Host Machine` and jump to [Create Kafka Topic](#create-kafka-topic). 
 
-## Kafka on Host Machine
+# Kafka on Host Machine
 ### Installation
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
 
@@ -76,24 +76,24 @@ export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 
 Refer to the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/systemd-services) to setup Systemd services for Kafka and Zookeeper to automate the start/stop commands and make your life easier.
 
-## Create Kafka Topic
+# Create Kafka Topic
 ```bash
 $KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topic1 --replication-factor 1 --partitions 2
 ```
 
-## Produce messages to Kafka
+# Produce messages to Kafka
 ```bash
 $KAFKA_HOME/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
 ```
 Open a new terminal window to start consuming while leaving this window untouched.
 
-## Consume messages from Kafka
+# Consume messages from Kafka
 ```bash
 $KAFKA_HOME/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
 ```
 Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
 
-## Produce/Consume using Kafka Clients
+# Produce/Consume using Kafka Clients
 
 ### Python-Client
 ```bash
@@ -105,7 +105,7 @@ python3 python-client/consumer.py
 python3 python-client/producer.py
 ```
 
-## Tools for Kafka and Zookeeper
+# Tools for Kafka and Zookeeper
 
 ### CMAK - Cluster Manager for Apache Kafka
 ```bash
