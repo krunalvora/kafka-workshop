@@ -2,22 +2,17 @@
 
 ## Table of Contents
 1. [Slides](#slides)
+2. [Kafka on Docker](#kafka-on-docker)
 2. [Kafka on Host Machine](#kafka-on-host-machine)
-	1. [Installation](#installation)
-	2. [Set KAFKA_HOME (IMPORTANT)](#set-kafka_home)
-	3. [Start Zookeeper](#start-zookeeper)
-    	1. [Using Zookeeper shell scripts](#using-zookeeper-shell-scripts)
-    	2. [Setup Zookeeper Service](#setup-zookeeper-service)
-	4. [Start Kafka](#start-kafka)
-    	1. [Using Kafka shell scripts](#using-kafka-shell-scripts)
-    	2. [Setup Kafka service](#setup-kafka-service)
-3. [Kafka on Docker](#kafka-on-docker)
-4. [Setup tools for Zookeeper and Kafka on Docker](#setup-tools-for-zookeeper-and-kafka-on-docker)
+	2. [Installation](#Installation)
+	2. [Start Zookeeper and Kafka](#start-zookeeper-and-kafka)
+	2. [Setup Zookeeper and Kafka Systemd Services for Linux](#setup-zookeeper-and-kafka-systemd-services-for-linux)
 4. [Create Kafka Topic](#create-kafka-topic)
 5. [Produce messages to Kafka](#produce-messages-to-kafka)
 6. [Consume messages from Kafka](#consume-messages-from-kafka)
 5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
     1. [Python-Client](#python-client)
+4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
 
 ## Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
@@ -26,104 +21,58 @@ Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA
 
 ## Kafka on Docker
 
-Refer the steps here.
+Refer the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/kafka-docker).
+If you want to run Kafka on Docker, skip the next step of `Kafka on Host Machine` and jump to [Create Kafka Topic](#create-kafka-topic). 
 
 ## Kafka on Host Machine
 ### Installation
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
 
 ```bash
-cd <KAFKA_INSTALLATION_DIRECTORY>
 
 wget <kafka tgz>
 
-tar -xvf kafka_2.12-2.4.0.tgz
+tar -xvf <kafka tgz> -C /usr/local/
 
 # Create a symbolic link to the kafka directory to refer to it easily 
-ln -s kafka_2.12-2.4.0 kafka
+ln -s <kafka_dir> kafka
 
 ```
 
-### Set KAFKA_HOME
-
-Depending on where you install `kafka` in the above step, set `KAFKA_HOME`:
+> If you want to use Kafka commands directly without using , add the below export command to your `.bashrc` / `.bash_profile` and source the file:
 ```bash
-export KAFKA_HOME=<KAFKA_INSTALLATION_DIRECTORY>/kafka
-
+# Add kafka bin to PATH
+export PATH=/usr/local/kafka/bin:$PATH
 ```
 
-> If you want to use Kafka commands directly without using `KAFKA_HOME`, add the below export command to your `.bashrc` / `.bash_profile` and source the file:
-```bash
-# Add KAFKA_HOME to PATH
-export PATH=$KAFKA_HOME/bin:$PATH
-```
+`source ~/.bashrc`  or `source ~/.bash_profile`
 
-### Start Zookeeper
 
-#### Using Zookeeper shell scripts
+### Start Zookeeper and Kafka
 
 ```bash
 # Command options within [] are optional. Please make the relevant changes to your command before running them.
 # -daemon runs the process in background
-$KAFKA_HOME/bin/zookeeper-server-start.sh [-daemon] $KAFKA_HOME/config/zookeeper.properties
+/usr/local/kafka/bin/zookeeper-server-start.sh [-daemon] /usr/local/kafka/config/zookeeper.properties
 ```
 
-#### Stop zookeeper
-```bash 
-$KAFKA_HOME/bin/zookeeper-server-stop.sh
-```
+> To stop zookeeper, `/usr/local/kafka/bin/zookeeper-server-stop.sh`
 
-#### Setup Zookeeper Service
- 
-##### Using Systemd
-```bash
-sudo vim /etc/systemd/system/zookeeper.service
 
-# Paste the content of zookeeper.service from systemd-services/zookeeper.service into the opened file
-
-sudo systemctl enable zookeeper
-
-sudo systemctl [status | start | stop] zookeeper
-```
-
-### Start Kafka
-
-#### Using Kafka shell scripts
 ```bash
 # Setting environment variables for Kafka
 export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 
 # -daemon runs the process in background
-$KAFKA_HOME/bin/kafka-server-start.sh [-daemon] $KAFKA_HOME/config/server.properties
-```
-#### Stop kafka
-```bash
-$KAFKA_HOME/bin/kafka-server-stop.sh
+/usr/local/kafka/bin/kafka-server-start.sh [-daemon] /usr/local/kafka/config/server.properties
 ```
 
-#### Setup Kafka Service
- 
-##### Using Systemd
-```bash
-sudo vim /etc/systemd/system/kafka.service
-
-# Paste the content of kafka.service from systemd-services/kafka.service into the opened file
-
-sudo systemctl enable kafka
+> To stop kafka, `/usr/local/kafka/bin/kafka-server-stop.sh`
 
 
-## Setup tools for Zookeeper and Kafka on Docker
-```bash
-cd kafka-manager
+### Setup Zookeeper and Kafka Systemd Services for Linux
 
-docker-compose up -d
-```
-
-```bash
-cd zoonavigator
-
-docker-compose up -d
-```
+Refer to the steps [here](https://github.com/krunalvora/kafka-workshop/tree/master/systemd-services) to setup Systemd services for Kafka and Zookeeper to automate the start/stop commands and make your life easier.
 
 ## Create Kafka Topic
 ```bash
@@ -152,4 +101,17 @@ python3 python-client/consumer.py
 
 # In a new shell window:
 python3 python-client/producer.py
+```
+
+## Tools for Zookeeper and Kafka
+```bash
+cd kafka-manager
+
+docker-compose up -d
+```
+
+```bash
+cd zoonavigator
+
+docker-compose up -d
 ```
