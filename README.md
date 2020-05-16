@@ -4,15 +4,17 @@
 1. [Slides](#slides)
 2. [Kafka on Docker](#kafka-on-docker)
 2. [Kafka on Host Machine](#kafka-on-host-machine)
-	2. [Installation](#Installation)
+	1. [Installation](#Installation)
 	2. [Start Zookeeper and Kafka](#start-zookeeper-and-kafka)
-	2. [Setup Zookeeper and Kafka Systemd Services for Linux](#setup-zookeeper-and-kafka-systemd-services-for-linux)
+	3. [Setup Zookeeper and Kafka Systemd Services for Linux](#setup-zookeeper-and-kafka-systemd-services-for-linux)
 4. [Create Kafka Topic](#create-kafka-topic)
 5. [Produce messages to Kafka](#produce-messages-to-kafka)
 6. [Consume messages from Kafka](#consume-messages-from-kafka)
 5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
     1. [Python-Client](#python-client)
 4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
+	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
+	2. [ZooNavigator](#zoonavigator)
 
 ## Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
@@ -103,13 +105,16 @@ python3 python-client/consumer.py
 python3 python-client/producer.py
 ```
 
-## Tools for Zookeeper and Kafka
+## Tools for Kafka and Zookeeper
+
+### CMAK - Cluster Manager for Apache Kafka
 ```bash
 cd kafka-manager
 
 docker-compose up -d
 ```
 
+### ZooNavigator
 ```bash
 cd zoonavigator
 
