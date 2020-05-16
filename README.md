@@ -83,13 +83,13 @@ $KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic topi
 
 # Produce messages to Kafka
 ```bash
-$KAFKA_HOME/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
+/usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic1
 ```
 Open a new terminal window to start consuming while leaving this window untouched.
 
 # Consume messages from Kafka
 ```bash
-$KAFKA_HOME/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
+/usr/local/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic topic1  [--from-beginning]
 ```
 Experiment with producing in string messages using the console producer and viewing them back into the console consumer.
 
