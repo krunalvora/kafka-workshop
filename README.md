@@ -24,6 +24,10 @@ Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA
 
 > The instructions below are for a linux(optionally mac) OS. You can follow the steps in the Kafka Documentation for other OSs.
 
+## Kafka on Docker
+
+Refer the steps here.
+
 ## Kafka on Host Machine
 ### Installation
 Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.apache.org/downloads) page.
@@ -107,21 +111,6 @@ sudo vim /etc/systemd/system/kafka.service
 
 sudo systemctl enable kafka
 
-sudo systemctl [status | start | stop] kafka
-```
-
-## Kafka on Docker
-```bash
-cd kafka-docker
-
-export ADVERTISED_HOST_NAME=`ipconfig getifaddr en0`
-
-# Start zookeeper and 3 kafka containers
-docker-compose up -d
-
-# Stop zookeeper and kafka containers
-docker-compose stop
-```
 
 ## Setup tools for Zookeeper and Kafka on Docker
 ```bash
