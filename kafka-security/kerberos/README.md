@@ -291,27 +291,19 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
         sudo kadmin.local -q "add_principal -randkey service@KAFKA.SECURE"
         sudo kadmin.local -q "xst -kt /tmp/service.user.keytab service@KAFKA.SECURE"
         sudo chmod a+r /tmp/service.user.keytab
-
-3. Service defines a `service.kafka_client_jaas.conf` file.
-
-        KafkaClient {
-            com.sun.security.auth.module.Krb5LoginModule required
-            useKeyTab=true
-            storeKey=true
-            keyTab="/tmp/service.user.keytab"
-            principal="service@KAFKA.SECURE";
-        };
 	
-4. Service defines a `kerberos.client.properties` file
+3. Service defines a `kerberos.client.properties` file
 
         security.protocol=SASL_PLAINTEXT
-        sasl.kerberos.service.name=kafka	
+        sasl.kerberos.service.name=kafka
+		sasl.mechanism=GSSAPI
+		sasl.jaas.config=com.sun.security.auth.module.Krb5LoginModule required \
+                         keyTab="/tmp/service.user.keytab" \
+                         principal="service@KAFKA.SECURE" \
+                         useKeyTab="true" \
+                         storeKey="true";
 
-5. Service sets the environment variable KAFKA_OPTS to provide the client JAAS config.
-
-        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/service.kafka_client_jaas.conf"
-
-6. Service requests Ops to add the principal `User:service` to add Read/Write operation for any topic/group/cluster ACLs.
+4. Service requests Ops to add the principal `User:service` to add Read/Write operation for any topic/group/cluster ACLs.
 
 
 
