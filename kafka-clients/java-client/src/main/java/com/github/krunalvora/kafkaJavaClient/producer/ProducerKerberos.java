@@ -1,6 +1,5 @@
 package com.github.krunalvora.kafkaJavaClient.producer;
 
-import com.github.krunalvora.kafkaJavaClient.consumer.ConsumerKerberos;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -16,7 +15,7 @@ public class ProducerKerberos {
 
     public static void main(String[] args) {
 
-        Logger logger = LoggerFactory.getLogger(ConsumerKerberos.class.getName());
+        Logger logger = LoggerFactory.getLogger(ProducerKerberos.class.getName());
 
         String bootstrap_servers = "127.0.0.1:9094";
         String security_protocol = "SASL_PLAINTEXT";
