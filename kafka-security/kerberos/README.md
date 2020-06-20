@@ -18,7 +18,8 @@
 	1. [Kafka Client JAAS Configuration](#kafka-client-jaas-configuration)
 	2. [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties)
 14. [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos)
-15. [Changes on Service side for Kerberos](#changes-on-service-side-for-kerberos)
+15. [Quick steps for creating a SASL/Kerberos User](#quick-steps-for-creating-a-saslkerberos-user)
+16. [Troubleshooting](#troubleshooting)
 
 
 ## Setup Kerberos Server
@@ -223,6 +224,8 @@ sasl.enabled.mechanisms=GSSAPI
 sasl.kerberos.service.name=kafka   # needs to match the kafka principal from kerberos server
 ```
 
+> We are using `SASL_PLAINTEXT` in this example. The other option is to use `SASL_SSL` which would need SSL encryption to be set up beforehand.
+
 Restart Kafka Server.
 
 
@@ -240,6 +243,8 @@ KafkaClient {
     principal="reader@KAFKA.SECURE";
 };
 ```
+
+> Make sure to have quotes surrounding the `keyTab` and `principal` in the above config. You might face a configuration error otherwise.
 
 ```bash
 export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/reader.kafka_client_jaas.conf"
@@ -267,10 +272,8 @@ klist             #Ticket cache
 ### Kafka Client SASL/Kerberos Properties
 `kerberos.client.properties`
 ```properties
-security.protocol=SASL_SSL
+security.protocol=SASL_PLAINTEXT
 sasl.kerberos.service.name=kafka
-ssl.truststore.location=/home/ubuntu/ssl/kafka.client.truststore.jks
-ssl.truststore.password=clientsecret
 
 ```
 
@@ -305,6 +308,26 @@ kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --con
 
 4. Service requests Ops to add the principal `User:service` to add Read/Write operation for any topic/group/cluster ACLs.
 
+> Make sure to have quotes surrounding the `keyTab` and `principal` in the above config. You might face a configuration error otherwise.
+
+4. `alice` sets the environment variable KAFKA_OPTS to provide the client JAAS config.
+
+        export KAFKA_OPTS="-Djava.security.auth.login.config=<path_to_jaas_conf>/alice.kafka_client_jaas.conf"
+
+5. `alice` requests the Kafka Ops to add the principal `User:alice` to add Read/Write operation for any topic/group/cluster ACLs.
+
+6. `alice` defines a `kerberos.client.properties` file as described in section [Kafka Client SASL/Kerberos Properties](#kafka-client-saslkerberos-properties).
+
+
+`alice` can now follow [Console Producer/Consumer with SASL/Kerberos](#console-producerconsumer-with-saslkerberos).
+
+
+## Troubleshooting
+
+1. `JavaLoginException - the client is being asked for a password` on Kafka server restart after Kerberos configuration.
+
+	The kafka server keytab file is either not reachable or does not have the correct permissions.
+	
 
 
 
