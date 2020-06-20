@@ -47,10 +47,10 @@ Download the latest Kafka binary from the [Apache Kafka Download](https://kafka.
 
 wget <kafka tgz>
 
-tar -xvf <kafka tgz> -C /usr/local/
+sudo tar -xvf <kafka tgz> -C /usr/local/
 
 # Create a symbolic link to the kafka directory to refer to it easily 
-ln -s <kafka_dir> kafka
+sudo ln -s /usr/local/<kafka_dir> /usr/local/kafka
 
 ```
 
