@@ -284,26 +284,29 @@ kafka-console-producer.sh --broker-list localhost:9094 --topic topic1 --producer
 kafka-console-consumer.sh --bootstrap-server localhost:9094 --topic topic1 --consumer.config kerberos.client.properties
 ```
 
-## Quick steps for creating a SASL/Kerberos User
+## Changes on Service side for Kerberos
 
-1. User `alice` requests the Kerberos Service to create a new principal for her and provide a keytab.
+1. Service requests Ops to create a new principal for them and provide a keytab.
 
-2. Kerberos Service generates a principal `alice@KAFKA.SECURE` and a keytab `alice.user.keytab` and provides the keytab back to `alice`. 
+2. Ops generates a principal `service@KAFKA.SECURE` and a keytab `service.user.keytab` and provides the keytab back to service. 
 
-        # Done by the kerberos service
-        sudo kadmin.local -q "add_principal -randkey alice@KAFKA.SECURE"
-        sudo kadmin.local -q "xst -kt /tmp/alice.user.keytab alice@KAFKA.SECURE"
-        sudo chmod a+r /tmp/alice.user.keytab
+        # Done by Ops
+        sudo kadmin.local -q "add_principal -randkey service@KAFKA.SECURE"
+        sudo kadmin.local -q "xst -kt /tmp/service.user.keytab service@KAFKA.SECURE"
+        sudo chmod a+r /tmp/service.user.keytab
+	
+3. Service defines a `kerberos.client.properties` file
 
-3. `alice` defines a `alice.kafka_client_jaas.conf` file.
+        security.protocol=SASL_PLAINTEXT
+        sasl.kerberos.service.name=kafka
+		sasl.mechanism=GSSAPI
+		sasl.jaas.config=com.sun.security.auth.module.Krb5LoginModule required \
+                         keyTab="/tmp/service.user.keytab" \
+                         principal="service@KAFKA.SECURE" \
+                         useKeyTab="true" \
+                         storeKey="true";
 
-        KafkaClient {
-            com.sun.security.auth.module.Krb5LoginModule required
-            useKeyTab=true
-            storeKey=true
-            keyTab="/tmp/alice.user.keytab"
-            principal="alice@KAFKA.SECURE";
-        };
+4. Service requests Ops to add the principal `User:service` to add Read/Write operation for any topic/group/cluster ACLs.
 
 > Make sure to have quotes surrounding the `keyTab` and `principal` in the above config. You might face a configuration error otherwise.
 
