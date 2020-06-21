@@ -8,7 +8,7 @@ services:
     environment:
       ZK_HOSTS: "zookeeper:2181"
     networks:
-      - kafka-docker_default
+      - kafka_default 
 networks:
-  kafka-docker_default:
+  kafka_default:
     external: true
