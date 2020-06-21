@@ -12,7 +12,7 @@
 6. [Consume messages from Kafka](#consume-messages-from-kafka)
 5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
     1. [Python-Client](#python-client)
-5. [Schema Registry](#schema-registry)
+5. [Schema Registry and Schema Registry UI](#schema-registry-and-schema-registry-ui)
 4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
 	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
 	2. [ZooNavigator](#zoonavigator)
@@ -117,7 +117,7 @@ python3 python-client/consumer.py
 python3 python-client/producer.py
 ```
 
-# Schema Registry
+# Schema Registry and Schema Registry UI
 
 Reference: [Confluent Schema Registry](https://docs.confluent.io/current/schema-registry/index.html)
 ```bash
@@ -125,7 +125,11 @@ cd docker-compose/schema-registry/
 
 docker-compose up -d
 ```
-Schema Registry endpoint should be available on `http://localhost:8081`. You can then use curl or a Schema Registry UI to play with the registry.
+
+This creates two services:
+- Schema Registry at `http://localhost:8081`. You can then use curl or a Schema Registry UI to play with the registry.
+- Schema Registry UI at [http://localhost:8000](http://localhost:8000)
+
 
 
 # Tools for Kafka and Zookeeper
