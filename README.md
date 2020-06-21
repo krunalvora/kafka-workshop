@@ -12,6 +12,7 @@
 6. [Consume messages from Kafka](#consume-messages-from-kafka)
 5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
     1. [Python-Client](#python-client)
+5. Schema Registry
 4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
 	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
 	2. [ZooNavigator](#zoonavigator)
