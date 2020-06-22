@@ -17,7 +17,7 @@ services:
     container_name: kafka-topics-ui
     hostname: kafka-topics-ui
     ports:
-      - "8002:8002"
+      - "8002:8000"
     depends_on:
       - rest-proxy
     environment:

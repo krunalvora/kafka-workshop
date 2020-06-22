@@ -19,7 +19,7 @@ services:
     container_name: schema-registry-ui
     hostname: schema-registry-ui
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
       - schema-registry
     environment:
