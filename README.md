@@ -13,6 +13,7 @@
 5. [Produce/Consume using Kafka Clients](#produceconsume-using-kafka-clients)
     1. [Python-Client](#python-client)
 5. [Schema Registry and Schema Registry UI](#schema-registry-and-schema-registry-ui)
+6. [Rest Proxy and Kafka Topics UI](#rest-proxy-and-kafka-topics-ui)
 4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
 	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
 	2. [ZooNavigator](#zoonavigator)
@@ -129,6 +130,20 @@ docker-compose up -d
 This creates two services:
 - Schema Registry at `http://localhost:8081`. You can then use curl or a Schema Registry UI to play with the registry.
 - Schema Registry UI at [http://localhost:8000](http://localhost:8000)
+
+
+# Rest Proxy and Kafka Topics UI
+
+Reference: [Confluent Rest Proxy](https://docs.confluent.io/current/kafka-rest/index.html)
+```bash
+cd docker-compose/rest-proxy/
+
+docker-compose up -d
+```
+
+This creates two services:
+- Rest Proxy at `http://localhost:8082`.
+- Kafka Topics UI at [http://localhost:8002](http://localhost:8002)
 
 
 
