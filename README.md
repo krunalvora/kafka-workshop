@@ -129,7 +129,7 @@ docker-compose up -d
 
 This creates two services:
 - Schema Registry at `http://localhost:8081`. You can then use curl or a Schema Registry UI to play with the registry.
-- Schema Registry UI at [http://localhost:8000](http://localhost:8000)
+- Schema Registry UI at [http://localhost:8001](http://localhost:8001)
 
 
 # Rest Proxy and Kafka Topics UI
