@@ -1,4 +1,4 @@
-# Apache Kafka 101
+# Apache Kafka Workshop
 
 ## Table of Contents
 1. [Slides](#slides)
