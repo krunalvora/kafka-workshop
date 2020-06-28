@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  postgres:
+    image: debezium/postgres
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - "5000:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - kafka_default
+
+  debezium:
+    image: debezium/connect
+
+networks:
+  kafka_default:
+    external: true
