@@ -11,8 +11,20 @@ services:
     networks:
       - kafka_default
 
-  debezium:
-    image: debezium/connect
+  debezium-connect:
+    image: debezium/connect:1.2
+    container_name: debezium-connect
+    hostname: debezium-connect
+    ports:
+      - "8083:8083"
+    environment:
+      BOOTSTRAP_SERVERS: kafka:29092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my-connect-configs
+      OFFSET_STORAGE_TOPIC: my-connect-offsets
+      STATUS_STORAGE_TOPIC: my-connect-statuses
+    networks:
+      - kafka_default
 
 networks:
   kafka_default:
