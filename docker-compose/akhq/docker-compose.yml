@@ -6,15 +6,17 @@ services:
     hostname: akhq
     ports:
       - "8080:8080"
-    environment:
-      AKHQ_CONFIGURATION: |
-        akhq:
-          connections:
-            local-kafka:
-              properties:
-                bootstrap.servers: "kafka:29092"
-              schema-registry:
-                url: "http://schema-registry:8081"
+#    environment:
+#      AKHQ_CONFIGURATION: |
+#        akhq:
+#          connections:
+#            local-kafka:
+#              properties:
+#                bootstrap.servers: "kafka:29092"
+#              schema-registry:
+#                url: "http://schema-registry:8081"
+    volumes:
+      - /Users/krunalvora/personal/kafka-workshop/docker-compose/akhq/akhq.yml:/app/application.yml
     networks:
       - kafka_default
 
