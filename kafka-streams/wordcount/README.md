@@ -27,7 +27,7 @@ kafka-console-producer.sh --broker-list localhost:9092 --topic streams-plaintext
 
 Run the App
 ```bash
-java -cp target/kafka-streams-wordcount-1.0-jar-with-dependencies.j com.github.krunalvora.kafka_streams.WordCountApp
+java -jar target/kafka-streams-wordcount.jar
 ```
 
 Produce messages into the input topic and the count of words should show up in the console consumer.

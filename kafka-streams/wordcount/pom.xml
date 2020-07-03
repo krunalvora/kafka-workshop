@@ -28,9 +28,16 @@
                 </execution>
             </executions>
             <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>com.github.krunalvora.kstreams.WordCountApp</mainClass>
+                    </manifest>
+                </archive>
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
+                <finalName>kafka-streams-wordcount</finalName>
+                <appendAssemblyId>false</appendAssemblyId>
             </configuration>
         </plugin>
     </plugins>

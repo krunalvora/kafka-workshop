@@ -1,4 +1,4 @@
-package com.github.krunalvora.kafka_streams;
+package com.github.krunalvora.kstreams;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
