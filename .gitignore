@@ -1,5 +1,7 @@
 .DS_Store
-kafka-clients/java-client/target/
-.idea/
+.idea
 *.iml
-target/
+target
+.settings
+.classpath
+.project
