@@ -1,5 +1,5 @@
 # select image
-FROM maven:3.5-jdk-8
+FROM maven:3.6-jdk-8-alpine
 
 # copy your source tree
 COPY ./ ./
@@ -8,4 +8,4 @@ COPY ./ ./
 RUN mvn clean package
 
 # set the startup command to run your binary
-CMD ["java", "-jar", "./target/kafka-streams-wordcount.jar"]
+CMD ["java", "-jar", "./target/kafka-streams-wordcount-1.0.jar"]
