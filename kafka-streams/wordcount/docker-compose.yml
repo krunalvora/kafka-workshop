@@ -3,6 +3,7 @@ version: "3.7"
 services:
   wordcount:
     build: .
+    container_name: wordcount
     environment:
       BOOTSTRAP_SERVERS: "kafka:29092"
       STREAMS_APPLICATION_ID: "wordcount"
