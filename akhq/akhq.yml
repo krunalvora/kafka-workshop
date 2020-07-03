@@ -1,0 +1,8 @@
+akhq:
+  # list of kafka cluster available for akhq
+  connections:
+    local-kafka: # url friendly name for the cluster (letter, number, _, -, ... dot are not allowed here)
+      properties: # standard kafka properties (optional)
+        bootstrap.servers: "kafka:29092"
+      schema-registry:
+        url: "http://schema-registry:8081" # schema registry url (optional)

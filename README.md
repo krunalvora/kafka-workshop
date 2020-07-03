@@ -28,7 +28,7 @@ Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA
 There are several Kafka Docker images available. We are going to use [wurstmeister/kafka-docker](https://github.com/wurstmeister/kafka-docker) image here. 
 
 ```bash
-cd docker-compose/kafka/
+cd kafka
 
 # Start zookeeper and kafka broker
 docker-compose up -d
@@ -122,7 +122,7 @@ python3 python-client/producer.py
 
 Reference: [Confluent Schema Registry](https://docs.confluent.io/current/schema-registry/index.html)
 ```bash
-cd docker-compose/schema-registry/
+cd schema-registry
 
 docker-compose up -d
 ```
@@ -136,7 +136,7 @@ This creates two services:
 
 Reference: [Confluent Rest Proxy](https://docs.confluent.io/current/kafka-rest/index.html)
 ```bash
-cd docker-compose/rest-proxy/
+cd kafka-rest-proxy/
 
 docker-compose up -d
 ```
@@ -151,14 +151,14 @@ This creates two services:
 
 ### CMAK - Cluster Manager for Apache Kafka
 ```bash
-cd docker-compose/kafka-manager/
+cd kafka-manager
 
 docker-compose up -d
 ```
 
 ### ZooNavigator
 ```bash
-cd docker-compose/zoonavigator/
+cd zoonavigator
 
 docker-compose up -d
 ```
