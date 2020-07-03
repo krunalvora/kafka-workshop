@@ -13,10 +13,9 @@ import java.util.Properties;
 
 public class WordCountApp {
 
-    public static final String INPUT_TOPIC = "streams-plaintext-input";
-    public static final String OUTPUT_TOPIC = "streams-wordcount-output";
-
     public static void main(String[] args) {
+        final String INPUT_TOPIC = "streams-plaintext-input";
+        final String OUTPUT_TOPIC = "streams-wordcount-output";
 
         final Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-wordcount");
