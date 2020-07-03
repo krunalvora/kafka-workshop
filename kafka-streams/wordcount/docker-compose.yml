@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  wordcount:
+    build: .
+    environment:
+      BOOTSTRAP_SERVERS: "kafka:29092"
+      STREAMS_APPLICATION_ID: "wordcount"
+      STREAMS_INPUT_TOPIC: "streams-plaintext-input"
+      STREAMS_OUTPUT_TOPIC: "streams-wordcount-output"
+    networks:
+      - kafka_default
+
+networks:
+  kafka_default:
+    external: true
+
