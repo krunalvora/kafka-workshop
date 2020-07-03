@@ -2,3 +2,4 @@
 kafka-clients/java-client/target/
 .idea/
 *.iml
+target/
