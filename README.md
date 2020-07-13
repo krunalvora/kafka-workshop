@@ -17,6 +17,7 @@
 4. [Tools for Kafka and Zookeeper](#tools-for-kafka-and-zookeeper)
 	1. [CMAK](#cmak-cluster-manager-for-apache-kafka)
 	2. [ZooNavigator](#zoonavigator)
+5. [Reassigning Partitions](#reassigning-partitions)
 
 # Slides
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
@@ -163,3 +164,36 @@ cd zoonavigator
 docker-compose up -d
 ```
 Zoonavigator should be available on [http://localhost:9000](http://localhost:9000)
+
+# Reassiging Partitions
+
+Documentation available [here](https://kafka.apache.org/documentation/#basic_ops_cluster_expansion).
+
+Create a `topics-to-move.json` file
+```json
+{"topics":  [{"topic": "topic1"}],
+ "version":1
+}
+```
+
+```bash
+kafka-reassign-partitions.sh --zookeeper localhost:2181 --topics-to-move-json-file topics-to-move.json --broker-list "1001,1002,1003" --generate
+```
+
+Save the proposed partition reassignment configuration into a file `reassignment.json`
+```json
+{
+  "version":1,
+  "partitions":[{"topic":"topic1","partition":0,"replicas":[1002],"log_dirs":["any"]},
+                {"topic":"topic1","partition":2,"replicas":[1001],"log_dirs":["any"]},
+                {"topic":"topic1","partition":1,"replicas":[1003],"log_dirs":["any"]}]
+}
+```
+
+```bash
+kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file reassignment.json --execute
+```
+
+```bash
+kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file reassignment.json --verify
+```
