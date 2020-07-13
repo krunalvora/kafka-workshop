@@ -165,7 +165,7 @@ docker-compose up -d
 ```
 Zoonavigator should be available on [http://localhost:9000](http://localhost:9000)
 
-# Reassiging Partitions
+# Reassigning Partitions
 
 Documentation available [here](https://kafka.apache.org/documentation/#basic_ops_cluster_expansion).
 
