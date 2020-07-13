@@ -5,7 +5,7 @@ services:
     build: .
     container_name: wordcount
     environment:
-      BOOTSTRAP_SERVERS: "kafka:29092"
+      BOOTSTRAP_SERVERS: "kafka:9092"
       STREAMS_APPLICATION_ID: "wordcount"
       STREAMS_INPUT_TOPIC: "streams-plaintext-input"
       STREAMS_OUTPUT_TOPIC: "streams-wordcount-output"

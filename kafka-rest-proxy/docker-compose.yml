@@ -7,7 +7,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      KAFKA_REST_BOOTSTRAP_SERVERS: "kafka:29092"
+      KAFKA_REST_BOOTSTRAP_SERVERS: "kafka:9092"
       KAFKA_REST_HOST_NAME: "rest-proxy"
     networks:
       - kafka_default

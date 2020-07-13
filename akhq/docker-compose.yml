@@ -12,11 +12,11 @@ services:
 #          connections:
 #            local-kafka:
 #              properties:
-#                bootstrap.servers: "kafka:29092"
+#                bootstrap.servers: "kafka:9092"
 #              schema-registry:
 #                url: "http://schema-registry:8081"
     volumes:
-      - /Users/krunalvora/personal/kafka-workshop/docker-compose/akhq/akhq.yml:/app/application.yml
+      - /Users/krunalvora/personal/kafka-workshop/akhq/akhq.yml:/app/application.yml
     networks:
       - kafka_default
 
