@@ -1,5 +1,44 @@
 version: "3.7"
 services:
+  jmxexporter1:
+    image: sscaling/jmx-prometheus-exporter
+    container_name: jmxexporter1
+    hostname: jmxexporter1
+    ports:
+      - "5556"
+    environment:
+      SERVICE_PORT: 5556
+    volumes:
+      - $PWD/jmxexporter1.yml:/opt/jmx_exporter/config.yml
+    networks:
+      - kafka_default
+
+  jmxexporter2:
+    image: sscaling/jmx-prometheus-exporter
+    container_name: jmxexporter2
+    hostname: jmxexporter2
+    ports:
+      - "5556"
+    environment:
+      SERVICE_PORT: 5556
+    volumes:
+      - $PWD/jmxexporter2.yml:/opt/jmx_exporter/config.yml
+    networks:
+      - kafka_default
+
+  jmxexporter3:
+    image: sscaling/jmx-prometheus-exporter
+    container_name: jmxexporter3
+    hostname: jmxexporter3
+    ports:
+      - "5556"
+    environment:
+      SERVICE_PORT: 5556
+    volumes:
+      - $PWD/jmxexporter3.yml:/opt/jmx_exporter/config.yml
+    networks:
+      - kafka_default
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
