@@ -51,6 +51,20 @@ services:
     networks:
       - kafka_default
 
+  grafana:
+    # image: grafana/grafana
+    build:
+      context: .
+      dockerfile: Dockerfile-grafana
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning
+    networks:
+      - kafka_default
+
 networks:
   kafka_default:
     external: true
