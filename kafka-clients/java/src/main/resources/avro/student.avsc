@@ -1,0 +1,11 @@
+{
+     "type": "record",
+     "namespace": "com.github.krunalvora.kafka_clients.avro",
+     "name": "Student",
+     "version": "1",
+     "fields": [
+       { "name": "first_name", "type": "string", "doc": "First Name of Customer" },
+       { "name": "last_name", "type": "string", "doc": "Last Name of Customer" },
+       { "name": "age", "type": "int", "doc": "Age at the time of registration" }
+     ]
+}

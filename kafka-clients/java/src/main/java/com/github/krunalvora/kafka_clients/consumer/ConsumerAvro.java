@@ -1,6 +1,6 @@
 package com.github.krunalvora.kafka_clients.consumer;
 
-import com.github.krunalvora.kafka_clients.avro.Customer;
+import com.github.krunalvora.kafka_clients.avro.Student;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -22,18 +22,18 @@ public class ConsumerAvro {
         properties.setProperty("schema.registry.url", "http://localhost:8081");
         properties.setProperty("specific.avro.reader", "true");
 
-        KafkaConsumer<String, Customer> kafkaConsumer = new KafkaConsumer<>(properties);
-        String topic = "customer-avro";
+        KafkaConsumer<String, Student> kafkaConsumer = new KafkaConsumer<>(properties);
+        String topic = "student-avro";
         kafkaConsumer.subscribe(Collections.singleton(topic));
 
         System.out.println("Waiting for data...");
 
         while (true){
             System.out.println("Polling...");
-            ConsumerRecords<String, Customer> records = kafkaConsumer.poll(Duration.ofMillis(5000));
+            ConsumerRecords<String, Student> records = kafkaConsumer.poll(Duration.ofMillis(5000));
 
-            for (ConsumerRecord<String, Customer> record : records){
-                Customer customer = record.value();
+            for (ConsumerRecord<String, Student> record : records){
+                Student customer = record.value();
                 System.out.println(customer);
             }
 

@@ -1,6 +1,7 @@
 package com.github.krunalvora.kafka_clients.producer;
 
 import com.github.krunalvora.kafka_clients.avro.Customer;
+import com.github.krunalvora.kafka_clients.avro.Student;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -18,21 +19,21 @@ public class ProducerAvro {
         properties.setProperty("value.serializer", KafkaAvroSerializer.class.getName());
         properties.setProperty("schema.registry.url", "http://localhost:8081");
 
-        Producer<String, Customer> producer = new KafkaProducer<String, Customer>(properties);
+        Producer<String, Student> producer = new KafkaProducer<String, Student>(properties);
 
-        String topic = "customer-avro";
+        String topic = "student-avro";
 
-        Customer customer = Customer.newBuilder()
+        Student student = Student.newBuilder()
                 .setAge(33)
                 .setFirstName("John")
                 .setLastName("Doe")
                 .build();
 
-        ProducerRecord<String, Customer> producerRecord = new ProducerRecord<String, Customer>(
-                topic, customer
+        ProducerRecord<String, Student> producerRecord = new ProducerRecord<String, Student>(
+                topic, student
         );
 
-        System.out.println(customer);
+        System.out.println(student);
         producer.send(producerRecord, new Callback() {
             @Override
             public void onCompletion(RecordMetadata metadata, Exception exception) {

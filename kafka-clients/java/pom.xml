@@ -10,8 +10,9 @@
 
 <properties>
     <avro.version>1.9.2</avro.version>
+    <proto.version>3.12.4</proto.version>
     <kafka.version>2.5.0</kafka.version>
-    <confluent.version>5.3.0</confluent.version>
+    <confluent.version>5.5.1</confluent.version>
 </properties>
 
 <!--necessary to resolve confluent dependencies-->
@@ -48,9 +49,21 @@
     </dependency>
 
     <dependency>
+        <groupId>io.confluent</groupId>
+        <artifactId>kafka-protobuf-serializer</artifactId>
+        <version>${confluent.version}</version>
+    </dependency>
+
+    <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>1.7.30</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${proto.version}</version>
     </dependency>
 </dependencies>
 
@@ -127,6 +140,32 @@
                         <sources>
                             <source>target/generated-sources/avro</source>
                         </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>com.github.os72</groupId>
+            <artifactId>protoc-jar-maven-plugin</artifactId>
+            <version>3.11.4</version>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <inputDirectories>
+                            <include>${project.basedir}/src/main/resources/proto</include>
+                        </inputDirectories>
+                        <outputTargets>
+                            <outputTarget>
+                                <type>java</type>
+                                <addSources>main</addSources>
+                                <outputDirectory>${project.basedir}/target/generated-sources/proto</outputDirectory>
+                            </outputTarget>
+                        </outputTargets>
                     </configuration>
                 </execution>
             </executions>
