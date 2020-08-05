@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package com.github.krunalvora.kafka_clients.protobuf;
+
+message SimpleMessage {
+    string content = 1;
+    string date_time = 2;
+}

@@ -7,8 +7,69 @@
 <groupId>com.github.krunalvora</groupId>
 <artifactId>kafka-clients-java</artifactId>
 <version>1.0</version>
+
+<properties>
+    <avro.version>1.9.2</avro.version>
+    <proto.version>3.12.4</proto.version>
+    <kafka.version>2.5.0</kafka.version>
+    <confluent.version>5.5.1</confluent.version>
+</properties>
+
+<!--necessary to resolve confluent dependencies-->
+<repositories>
+    <repository>
+        <id>confluent</id>
+        <url>http://packages.confluent.io/maven/</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-clients</artifactId>
+        <version>${kafka.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-streams</artifactId>
+        <version>${kafka.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>${avro.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.confluent</groupId>
+        <artifactId>kafka-avro-serializer</artifactId>
+        <version>${confluent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.confluent</groupId>
+        <artifactId>kafka-protobuf-serializer</artifactId>
+        <version>${confluent.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.30</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${proto.version}</version>
+    </dependency>
+</dependencies>
+
 <build>
     <plugins>
+        
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -17,31 +78,101 @@
                 <target>8</target>
             </configuration>
         </plugin>
+
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+                <finalName>kafka-client-java</finalName>
+                <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>make-assembly</id>
+                    <!-- bind to the packaging phase -->
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!-- Generate avro classes -->
+        <plugin>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro-maven-plugin</artifactId>
+            <version>${avro.version}</version>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>schema</goal>
+                        <goal>protocol</goal>
+                        <goal>idl-protocol</goal>
+                    </goals>
+                    <configuration>
+                        <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+                        <stringType>String</stringType>
+                        <createSetters>false</createSetters>
+                        <enableDecimalLogicalType>true</enableDecimalLogicalType>
+                        <fieldVisibility>private</fieldVisibility>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!-- Force discovery of generated classes -->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <id>add-source</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                        <sources>
+                            <source>target/generated-sources/avro</source>
+                        </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>com.github.os72</groupId>
+            <artifactId>protoc-jar-maven-plugin</artifactId>
+            <version>3.11.4</version>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <inputDirectories>
+                            <include>${project.basedir}/src/main/resources/proto</include>
+                        </inputDirectories>
+                        <outputTargets>
+                            <outputTarget>
+                                <type>java</type>
+                                <addSources>main</addSources>
+                                <outputDirectory>${project.basedir}/target/generated-sources/proto</outputDirectory>
+                            </outputTarget>
+                        </outputTargets>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
     </plugins>
 </build>
-
-<dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
-    <dependency>
-        <groupId>org.apache.kafka</groupId>
-        <artifactId>kafka-clients</artifactId>
-        <version>2.5.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.30</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams -->
-    <dependency>
-        <groupId>org.apache.kafka</groupId>
-        <artifactId>kafka-streams</artifactId>
-        <version>2.5.0</version>
-    </dependency>
-
-</dependencies>
 
 
 </project>
