@@ -2,6 +2,7 @@
 
 ## Table of Contents
 1. [Slides](#slides)
+2. [Assignment](#assignment)
 2. [Kafka on Docker](#kafka-on-docker)
 2. [Kafka on Host Machine](#kafka-on-host-machine)
 	1. [Installation](#Installation)
@@ -23,6 +24,13 @@
 Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA_gFRikpfQoZabDjeBCW6eO_C1RH3Hh8/edit?usp=sharing).
 
 > The instructions below are for a linux(optionally mac) OS. You can follow the steps in the Kafka Documentation for other OSs.
+
+# Assignment
+
+1. Spin up dockerized containers for Kafka and Zookeeper using [Kafka on Docker](#kafka-on-docker).
+2. Install [kafkacat](https://github.com/edenhill/kafkacat).
+3. Create a topic in the Kafka cluster using kafkacat.
+4. Produce to and consume from the topic using kafkacat.
 
 # Kafka on Docker
 
