@@ -31,6 +31,8 @@ Slides are available [here](https://docs.google.com/presentation/d/1oj05PmkEfKmA
 2. Install [kafkacat](https://github.com/edenhill/kafkacat).
 3. Create a topic in the Kafka cluster using kafkacat.
 4. Produce to and consume from the topic using kafkacat.
+Additional steps:
+5. Write a Java application to produce and consume from the Kafka topic using the `kafka-clients` directory in thie repo.
 
 # Kafka on Docker
 
