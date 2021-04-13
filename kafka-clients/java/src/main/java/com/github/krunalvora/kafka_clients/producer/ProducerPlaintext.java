@@ -17,7 +17,7 @@ public class ProducerPlaintext {
 
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
 
-        ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "hello");
+        ProducerRecord<String, String> record = new ProducerRecord<String, String>("topic1", "hello");
         producer.send(record);
         producer.close();
     }

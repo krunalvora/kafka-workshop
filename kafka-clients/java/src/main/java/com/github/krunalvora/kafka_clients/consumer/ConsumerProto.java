@@ -1,10 +1,10 @@
 package com.github.krunalvora.kafka_clients.consumer;
 
-import com.github.krunalvora.kafka_clients.protobuf.SimpleMessageOuterClass.SimpleMessage;
-import com.github.krunalvora.kafka_clients.protobuf.SimpleOuterClass;
 import com.google.protobuf.Descriptors.FieldDescriptor;
+import com.google.protobuf.Message;
 import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer;
 import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializerConfig;
+import io.confluent.kafka.serializers.subject.TopicRecordNameStrategy;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
@@ -24,17 +24,20 @@ public class ConsumerProto {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaProtobufDeserializer.class);
         properties.put(KafkaProtobufDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
-        properties.put(KafkaProtobufDeserializerConfig.SPECIFIC_PROTOBUF_VALUE_TYPE, SimpleMessage.class.getName());
+        // properties.put(KafkaProtobufDeserializerConfig.SPECIFIC_PROTOBUF_VALUE_TYPE, Event1.class.getName());
 
-        String topic = "simplemessage-proto";
+        properties.put(KafkaProtobufDeserializerConfig.VALUE_SUBJECT_NAME_STRATEGY, TopicRecordNameStrategy.class);
+        properties.put(KafkaProtobufDeserializerConfig.DERIVE_TYPE_CONFIG, true);
 
-        KafkaConsumer<String, SimpleMessage> consumer = new KafkaConsumer<>(properties);
+        String topic = "topic6";
+
+        KafkaConsumer<String, Message> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singleton(topic));
 
 
         while (true) {
-            ConsumerRecords<String, SimpleMessage> records = consumer.poll(Duration.ofMillis(100));
-            for (ConsumerRecord<String, SimpleMessage> record : records) {
+            ConsumerRecords<String, Message> records = consumer.poll(Duration.ofMillis(100));
+            for (ConsumerRecord<String, Message> record : records) {
                 for (FieldDescriptor field : record.value().getAllFields().keySet()) {
                     System.out.println(field.getName() + ": " + record.value().getField(field));
                 }

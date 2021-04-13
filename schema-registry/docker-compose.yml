@@ -13,20 +13,6 @@ services:
       # SCHEMA_REGISTRY_LISTENERS: "http://localhost:8081"
     networks:
       - kafka_default
-
-  schema-registry-ui:
-    image: landoop/schema-registry-ui
-    container_name: schema-registry-ui
-    hostname: schema-registry-ui
-    ports:
-      - "8001:8000"
-    depends_on:
-      - schema-registry
-    environment:
-      SCHEMAREGISTRY_URL: "http://schema-registry:8081"
-      PROXY: "true"
-    networks:
-      - kafka_default
 networks:
   kafka_default:
     external: true

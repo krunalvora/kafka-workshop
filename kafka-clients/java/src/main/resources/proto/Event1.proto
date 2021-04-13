@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package com.github.krunalvora.kafka_clients.protobuf;
 
-message SimpleMessage {
+option java_outer_classname = "Event1OuterClass";
+
+message Event1 {
     string content = 1;
-    string date_time = 2;
+    bool isWhatever = 2;
 }

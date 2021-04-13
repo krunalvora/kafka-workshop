@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package com.github.krunalvora.kafka_clients.protobuf;
+
+option java_outer_classname = "Event2OuterClass";
+
+message Event2 {
+    string content1 = 1;
+    string content2 = 2;
+}
