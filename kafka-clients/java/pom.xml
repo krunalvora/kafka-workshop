@@ -10,7 +10,8 @@
 
 <properties>
     <avro.version>1.9.2</avro.version>
-    <proto.version>3.12.4</proto.version>
+    <proto.version>3.15.8</proto.version>
+    <protobuf.version>3.15.8</protobuf.version>  <!--necessary for dependency kafka-protobuf-serde -->
     <kafka.version>2.5.0</kafka.version>
     <confluent.version>5.5.1</confluent.version>
 </properties>
@@ -61,10 +62,18 @@
     </dependency>
 
     <dependency>
+        <groupId>com.github.daniel-shuy</groupId>
+        <artifactId>kafka-protobuf-serde</artifactId>
+        <version>2.2.0</version>
+    </dependency>
+
+    <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
         <version>${proto.version}</version>
     </dependency>
+
+
 </dependencies>
 
 <build>
