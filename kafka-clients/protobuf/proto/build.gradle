@@ -1,0 +1,24 @@
+
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.8.15'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.15.6'
+}
+
+jar {
+    archiveVersion = '0.1'
+    destinationDirectory = file('../lib')  // relative to the subproject home
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.15.6'
+    }
+}
