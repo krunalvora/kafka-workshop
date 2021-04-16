@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package com.github.krunalvora;
+
+option java_outer_classname = "Event1OuterClass";
+
+message Event1 {
+  string content = 1;
+}
