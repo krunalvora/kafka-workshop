@@ -9,7 +9,7 @@
 <version>1.0</version>
 
 <properties>
-    <avro.version>1.9.2</avro.version>
+    <avro.version>1.11.3</avro.version>
     <proto.version>3.15.8</proto.version>
     <protobuf.version>3.15.8</protobuf.version>  <!--necessary for dependency kafka-protobuf-serde -->
     <kafka.version>2.5.0</kafka.version>
